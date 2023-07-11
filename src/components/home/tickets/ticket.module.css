@@ -1,0 +1,110 @@
+.container {
+  font-size: 20px;
+}
+.container h4 {
+  margin: 5px 0;
+}
+.navbar {
+  background-color: #ddd;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 20px;
+}
+.ticket_btn_delete {
+  height: 60px;
+  width: 100px;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_quantity {
+  height: 60px;
+  width: 100px;
+  background-color: rgb(110, 110, 110);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_code {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  height: 60px;
+  display: flex;
+  background-color: #ccc;
+}
+.footer {
+  background-color: #ddd;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 20px;
+}
+.ticket_btn_send {
+  height: 60px;
+  width: 50%;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_cancel {
+  height: 60px;
+  width: 50%;
+  background-color: rgb(110, 110, 110);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total {
+  border-color: 1px solid #666;
+  padding: 10px;
+}
+.client {
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  padding: 10px;
+  font-size: 23px;
+}
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #666;
+  margin: 5px 0;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.products {
+  padding: 10px;
+}
+.quantity {
+  background-color: #666;
+  color: white;
+  height: 30px;
+  min-width: 30px;
+  display: inline-block;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: 3px;
+  padding: 0 5px;
+}
