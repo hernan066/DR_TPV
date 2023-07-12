@@ -1,0 +1,22 @@
+.navbar {
+  height: 70px;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.navbar_btn {
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+}
+.navbar_input {
+  height: 50px;
+  padding: 0 10px;
+  flex: 1;
+  font-size: 22px;
+  outline: none;
+  border: none;
+}

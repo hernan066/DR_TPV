@@ -1,0 +1,39 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.883);
+  position: fixed;
+  min-height: 100vh;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.keypad {
+  background-color: #666;
+}
+.flex {
+  display: flex;
+}
+.btn_num {
+  width: 150px;
+  height: 150px;
+  font-size: 30px;
+}
+.btn_right {
+  width: 150px;
+  height: 300px;
+  font-size: 30px;
+}
+.btn_cero {
+  width: 300px;
+  height: 150px;
+  font-size: 30px;
+}
+.keypad_input {
+  height: 100px;
+  width: 100%;
+  font-size: 30px;
+  padding: 0 30px;
+  outline: none;
+}

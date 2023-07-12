@@ -1,11 +1,20 @@
+import { useDispatch } from "react-redux";
 import styles from "./ticket.module.css";
+import { openKeypad } from "../../redux/uiSlice";
 
 export const Ticket = () => {
+  const dispatch = useDispatch();
+
   return (
     <section className={styles.container}>
       <div className={styles.navbar}>
         <button className={styles.ticket_btn_delete}>Borrar</button>
-        <button className={styles.ticket_btn_quantity}>Cantidad</button>
+        <button
+          className={styles.ticket_btn_quantity}
+          onClick={() => dispatch(openKeypad())}
+        >
+          Cantidad
+        </button>
         <div className={styles.ticket_code}>Cod. 2315641312465132</div>
       </div>
       <div className={styles.products}>
@@ -19,10 +28,8 @@ export const Ticket = () => {
             </div>
             <h4>$1.000</h4>
           </div>
-
-          <div className={styles.divider} />
         </div>
-        <div className={styles.product}>
+        <div className={styles.product_active}>
           <div className={styles.flex}>
             <div>
               <h4 style={{ display: "flex", gap: "5px" }}>
@@ -32,8 +39,6 @@ export const Ticket = () => {
             </div>
             <h4>$1.000</h4>
           </div>
-
-          <div className={styles.divider} />
         </div>
         <div className={styles.product}>
           <div className={styles.flex}>
@@ -45,8 +50,6 @@ export const Ticket = () => {
             </div>
             <h4>$1.000</h4>
           </div>
-
-          <div className={styles.divider} />
         </div>
       </div>
       <div className={styles.bottom}>
@@ -65,7 +68,7 @@ export const Ticket = () => {
             <h4>Impuestos</h4>
             <h4>$0</h4>
           </div>
-          <div className={styles.divider} />
+          <div className={styles.divider}></div>
           <div
             className={styles.flex}
             style={{ fontSize: "30px", fontWeight: 800, letterSpacing: "2px" }}

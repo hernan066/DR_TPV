@@ -1,0 +1,95 @@
+.container {
+  height: 100vh;
+  display: flex;
+}
+.products_container {
+  width: 70%;
+  position: relative;
+  border: 1px solid #ddd;
+}
+.ticket_container {
+  width: 30%;
+  position: relative;
+  border: 1px solid #ddd;
+}
+.navbar {
+  height: 70px;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+}
+.navbar_btn {
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+}
+.navbar_input {
+  height: 50px;
+  padding: 0 10px;
+  flex: 1;
+  font-size: 22px;
+  outline: none;
+  border: none;
+}
+.main_products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+}
+.product_card {
+  width: 19.3%;
+
+  background-color: white;
+  position: relative;
+  box-shadow: 2px 2px 5px #cccccc83, -2px -2px 5px #cccccc83;
+  transition: all 0.4s;
+}
+.product_card:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+}
+.product_card img {
+  width: 100%;
+  display: block;
+}
+.product_card_name {
+  position: absolute;
+  height: 15%;
+  width: 100%;
+  background-color: #33333382;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+}
+.product_card_name h3 {
+  color: white;
+  font-size: 18px;
+}
+.products_pagination {
+  position: absolute;
+  height: 70px;
+  background-color: #ddd;
+  bottom: 0;
+  width: 100%;
+  padding: 0 30px;
+}
+.products_pagination_flex {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 22px;
+  justify-content: space-between;
+}
+.products_pagination_flex svg {
+  width: 35px;
+  height: 35px;
+}
+.flex {
+  display: flex;
+  gap: 40px;
+}
