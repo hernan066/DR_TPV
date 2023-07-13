@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import styles from "./keypad.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { closeKeypad } from "../../redux/uiSlice";
+import { updateQuantityProduct } from "../../redux/orderSlice";
 
 export const Keypad = () => {
+  const { active } = useSelector((store) => store.order);
   const [displayNumber, setDisplayNumber] = useState({
     acc: [],
     value: "",
@@ -35,6 +37,12 @@ export const Keypad = () => {
     });
   };
   const handleOk = () => {
+    dispatch(
+      updateQuantityProduct({
+        id: active,
+        quantity: displayNumber.value,
+      })
+    );
     dispatch(closeKeypad());
   };
 

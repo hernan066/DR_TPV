@@ -4,7 +4,6 @@ const uiSlice = createSlice({
   name: "ui",
   initialState: {
     keypad: false,
-    products: false,
   },
   reducers: {
     openKeypad: (state) => {
@@ -13,15 +12,8 @@ const uiSlice = createSlice({
     closeKeypad: (state) => {
       state.keypad = false;
     },
-    openProducts: (state) => {
-      state.keypad = true;
-    },
-    closeProducts: (state) => {
-      state.keypad = false;
-    },
   },
 });
 
-export const { openKeypad, closeKeypad, openProducts, closeProducts } =
-  uiSlice.actions;
+export const { openKeypad, closeKeypad } = uiSlice.actions;
 export default uiSlice.reducer;
