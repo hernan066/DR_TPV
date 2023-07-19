@@ -1,0 +1,33 @@
+.navbar {
+  height: 70px;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border-bottom: 1px solid #ccc;
+}
+.navbar h2 {
+  color: white;
+  text-align: center;
+  letter-spacing: 3px;
+  font-size: 25px;
+}
+.navbar_title {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn_menu {
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  margin-right: 20px;
+  color: white;
+}
+.btn_menu svg {
+  height: 30px;
+  width: 30px;
+}

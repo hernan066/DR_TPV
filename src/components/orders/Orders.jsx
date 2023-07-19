@@ -31,7 +31,7 @@ const Order = ({ order }) => {
 
 export const Orders = () => {
   const { orders } = useSelector((store) => store.ordersList);
-  console.log(orders);
+
   return (
     <section className={styles.container}>
       {orders &&

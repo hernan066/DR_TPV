@@ -1,0 +1,196 @@
+.container {
+  font-size: 20px;
+}
+.container h4 {
+  margin: 5px 0;
+}
+.navbar {
+  background-color: #ddd;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 20px;
+}
+.ticket_btn_delete {
+  height: 60px;
+  width: 25%;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_delete:disabled {
+  height: 60px;
+  width: 25%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: not-allowed;
+}
+.ticket_btn_quantity {
+  height: 60px;
+  width: 25%;
+  background-color: rgb(110, 110, 110);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_quantity:disabled {
+  height: 60px;
+  width: 25%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: not-allowed;
+}
+.ticket_code {
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  height: 60px;
+  display: flex;
+  background-color: rgb(110, 110, 110);
+  font-size: 20px;
+  color: white;
+}
+.ticket_code:disabled {
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  height: 60px;
+  display: flex;
+  background-color: rgb(162, 161, 161);
+  font-size: 20px;
+  color: white;
+  cursor: not-allowed;
+}
+.ticket_btn_products {
+  height: 60px;
+  width: 25%;
+  background-color: rgb(110, 110, 110);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_products:disabled {
+  height: 60px;
+  width: 25%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.footer {
+  background-color: #ddd;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 20px;
+}
+.ticket_btn_send {
+  height: 60px;
+  width: 50%;
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_send:disabled {
+  height: 60px;
+  width: 50%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: not-allowed;
+}
+.ticket_btn_cancel {
+  height: 60px;
+  width: 50%;
+  background-color: rgb(110, 110, 110);
+  color: white;
+  border: none;
+  font-size: 20px;
+}
+.ticket_btn_cancel:disabled {
+  height: 60px;
+  width: 50%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: not-allowed;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total {
+  border-color: 1px solid #666;
+  padding: 10px;
+}
+.client {
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+
+  font-size: 23px;
+  transition: all 0.3s;
+}
+.client:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #666;
+  margin: 5px 0;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.product_active {
+  background-color: rgba(77, 153, 246, 0.892);
+  color: white;
+  padding: 10px;
+}
+.product {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.quantity {
+  background-color: #666;
+  color: white;
+  height: 30px;
+  min-width: 30px;
+  display: inline-block;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: 3px;
+  padding: 0 5px;
+}
+.client_empty {
+  background-color: #f2f295;
+  text-align: center;
+  padding: 10px;
+}
+.client_empty_text {
+  font-size: 15px;
+}

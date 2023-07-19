@@ -1,23 +1,27 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ticket.module.css";
-import { openClient, openKeypad } from "../../redux/uiSlice";
+import {
+  keypadModePrice,
+  keypadModeQuantity,
+  openClient,
+  openKeypad,
+  openPopupProducts,
+} from "../../redux/uiSlice";
+import { formatPrice } from "../../utils/formatPrice";
 import {
   clearActiveProduct,
-  clearCart,
-  deleteProduct,
+  deleteActiveProduct,
+  deleteOrder,
   setActiveProduct,
-} from "../../redux/orderSlice";
-import { formatPrice } from "../../utils/formatPrice";
-import { addOrder } from "../../redux/ordersSlice";
-import { v4 as uuidv4 } from "uuid";
+} from "../../redux/ordersSlice";
 import Swal from "sweetalert2";
 
 const Product = ({ product }) => {
-  const { active } = useSelector((store) => store.order);
+  const { activeProduct } = useSelector((store) => store.ordersList);
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (active == product.uniqueId) {
+    if (activeProduct == product.uniqueId) {
       dispatch(clearActiveProduct());
     } else {
       dispatch(clearActiveProduct());
@@ -28,7 +32,9 @@ const Product = ({ product }) => {
   return (
     <div
       className={
-        active !== product.uniqueId ? styles.product : styles.product_active
+        activeProduct !== product.uniqueId
+          ? styles.product
+          : styles.product_active
       }
       onClick={handleClick}
     >
@@ -45,18 +51,44 @@ const Product = ({ product }) => {
   );
 };
 
-export const Ticket = () => {
+export const OrderDetail = () => {
   const dispatch = useDispatch();
-  const { products, client, active, subTotal } = useSelector(
-    (store) => store.order
+  const { selectOrder, activeProduct } = useSelector(
+    (store) => store.ordersList
   );
 
   const handleDelete = () => {
-    dispatch(deleteProduct(active));
+    Swal.fire({
+      title: "Deseas borrar este producto?",
+      text: "Este cambio no se puede revertir",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Borrar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteActiveProduct(activeProduct));
+      }
+    });
+  };
+  const handleDeleteOrder = () => {
+    Swal.fire({
+      title: "Deseas borrar esta Orden?",
+      text: "Este cambio no se puede revertir",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Borrar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteOrder(selectOrder.orderId));
+      }
+    });
   };
 
   const handleSendOrder = () => {
-    dispatch(
+    console.log(selectOrder);
+    /*    dispatch(
       addOrder({
         userCashier: null, // id del usuario cajero
         userSeller: null, // id del usuario vendedor
@@ -109,60 +141,66 @@ export const Ticket = () => {
         date: new Date(),
       })
     );
-    dispatch(clearCart());
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Orden enviada a caja",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    dispatch(clearCart()); */
   };
 
   return (
     <section className={styles.container}>
       <div className={styles.navbar}>
         <button
-          className={styles.ticket_btn_delete}
-          onClick={handleDelete}
-          disabled={!active ? true : false}
-        >
-          Borrar
-        </button>
-        <button
           className={styles.ticket_btn_quantity}
-          onClick={() => dispatch(openKeypad())}
-          disabled={!active ? true : false}
+          onClick={() => {
+            dispatch(openKeypad());
+            dispatch(keypadModeQuantity());
+          }}
+          disabled={!activeProduct ? true : false}
         >
           Cantidad
         </button>
-        <div className={styles.ticket_code}>Cod. 2315641312465132</div>
+        <button
+          className={styles.ticket_code}
+          onClick={() => {
+            dispatch(openKeypad());
+            dispatch(keypadModePrice());
+          }}
+          disabled={!activeProduct ? true : false}
+        >
+          Precio
+        </button>
+        <button
+          className={styles.ticket_btn_products}
+          onClick={() => dispatch(openPopupProducts())}
+        >
+          +Productos
+        </button>
+        <button
+          className={styles.ticket_btn_delete}
+          onClick={handleDelete}
+          disabled={!activeProduct ? true : false}
+        >
+          Borrar
+        </button>
       </div>
-      <div className={styles.products}>
-        {products.map((product) => (
-          <Product product={product} key={product.uniqueId} />
-        ))}
-      </div>
+      {selectOrder && (
+        <div className={styles.products}>
+          {selectOrder.orderItems.map((product) => (
+            <Product product={product} key={product.uniqueId} />
+          ))}
+        </div>
+      )}
       <div className={styles.bottom}>
         <div className={styles.client} onClick={() => dispatch(openClient())}>
-          {client ? (
+          {selectOrder && selectOrder.clientFullName && (
             <div className={styles.flex} style={{ padding: "10px" }}>
               <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
-              <h4>{`${client.user.name} ${client.user.lastName}`}</h4>
-            </div>
-          ) : (
-            <div className={styles.client_empty}>
-              <p>⚠ Se debe cargar un cliente </p>
-              <p className={styles.client_empty_text}>
-                (click aquí para cargar)
-              </p>
+              <h4>{selectOrder.clientFullName}</h4>
             </div>
           )}
         </div>
         <div className={styles.total}>
           <div className={styles.flex}>
             <h4>Subtotal</h4>
-            <h4>{formatPrice(subTotal || 0)}</h4>
+            <h4>{formatPrice(selectOrder?.subTotal || 0)}</h4>
           </div>
           <div className={styles.flex}>
             <h4>Envío</h4>
@@ -174,22 +212,23 @@ export const Ticket = () => {
             style={{ fontSize: "30px", fontWeight: 800, letterSpacing: "2px" }}
           >
             <h4>Total</h4>
-            <h4>{formatPrice(subTotal || 0)}</h4>
+            <h4>{formatPrice(selectOrder?.total || 0)}</h4>
           </div>
         </div>
         <div className={styles.footer}>
           <button
             className={styles.ticket_btn_send}
+            disabled={!selectOrder}
             onClick={handleSendOrder}
-            disabled={!products || !client}
           >
-            Enviar a caja
+            $ Cobrar
           </button>
           <button
             className={styles.ticket_btn_cancel}
-            onClick={() => dispatch(clearCart())}
+            disabled={!selectOrder}
+            onClick={handleDeleteOrder}
           >
-            Cancelar orden
+            Borrar Orden
           </button>
         </div>
       </div>

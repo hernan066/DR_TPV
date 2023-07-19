@@ -1,12 +1,21 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import styles from "./keypad.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { closeKeypad } from "../../redux/uiSlice";
 import { updateQuantityProduct } from "../../redux/orderSlice";
+import { useLocation } from "react-router-dom";
+import {
+  updatePriceActiveProduct,
+  updateQuantityActiveProduct,
+} from "../../redux/ordersSlice";
 
 export const Keypad = () => {
+  const { pathname } = useLocation();
+  const { keypad_mode } = useSelector((store) => store.ui);
+
   const { active } = useSelector((store) => store.order);
+  const { activeProduct } = useSelector((store) => store.ordersList);
+
   const [displayNumber, setDisplayNumber] = useState({
     acc: [],
     value: "",
@@ -37,12 +46,31 @@ export const Keypad = () => {
     });
   };
   const handleOk = () => {
-    dispatch(
-      updateQuantityProduct({
-        id: active,
-        quantity: displayNumber.value,
-      })
-    );
+    if (pathname === "/caja" && keypad_mode === "quantity") {
+      dispatch(
+        updateQuantityActiveProduct({
+          id: activeProduct,
+          value: displayNumber.value,
+        })
+      );
+    }
+    if (pathname === "/caja" && keypad_mode === "price") {
+      dispatch(
+        updatePriceActiveProduct({
+          id: activeProduct,
+          value: displayNumber.value,
+        })
+      );
+    }
+    if (keypad_mode === "quantity") {
+      dispatch(
+        updateQuantityProduct({
+          id: active,
+          value: displayNumber.value,
+        })
+      );
+    }
+
     dispatch(closeKeypad());
   };
 
@@ -62,10 +90,7 @@ export const Keypad = () => {
   }, []);
 
   return (
-    <section
-      className={styles.container}
-      /*  onClick={() => dispatch(closeKeypad())} */
-    >
+    <section className={styles.container}>
       <div className={styles.keypad}>
         <input
           type="number"
