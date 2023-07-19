@@ -1,39 +1,44 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ticket.module.css";
-import { openKeypad } from "../../redux/uiSlice";
+import { openClient, openKeypad } from "../../redux/uiSlice";
 import {
   clearActiveProduct,
+  clearCart,
   deleteProduct,
   setActiveProduct,
 } from "../../redux/orderSlice";
 import { formatPrice } from "../../utils/formatPrice";
+import { addOrder } from "../../redux/ordersSlice";
+import { v4 as uuidv4 } from "uuid";
 
-const Product = ({ ofert }) => {
+const Product = ({ product }) => {
   const { active } = useSelector((store) => store.order);
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (active == ofert._id) {
+    if (active == product.uniqueId) {
       dispatch(clearActiveProduct());
     } else {
       dispatch(clearActiveProduct());
-      dispatch(setActiveProduct(ofert._id));
+      dispatch(setActiveProduct(product.uniqueId));
     }
   };
 
   return (
     <div
-      className={active !== ofert._id ? styles.product : styles.product_active}
+      className={
+        active !== product.uniqueId ? styles.product : styles.product_active
+      }
       onClick={handleClick}
     >
       <div className={styles.flex}>
         <div>
           <h4 style={{ display: "flex", gap: "5px" }}>
-            <span className={styles.quantity}>{ofert.quantity}</span>
-            {ofert.description} / Unid.({formatPrice(ofert.retailPrice)})
+            <span className={styles.quantity}>{product.totalQuantity}</span>
+            {product.description} / Unid.({formatPrice(product.unitPrice)})
           </h4>
         </div>
-        <h4>${ofert.totalPrice}</h4>
+        <h4>{formatPrice(product.totalPrice)}</h4>
       </div>
     </div>
   );
@@ -41,10 +46,69 @@ const Product = ({ ofert }) => {
 
 export const Ticket = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((store) => store.order);
-  const { active, subTotal } = useSelector((store) => store.order);
+  const { products, client, active, subTotal } = useSelector(
+    (store) => store.order
+  );
+
   const handleDelete = () => {
     dispatch(deleteProduct(active));
+  };
+
+  const handleSendOrder = () => {
+    dispatch(
+      addOrder({
+        userCashier: null, // id del usuario cajero
+        userSeller: null, // id del usuario vendedor
+        client: client._id,
+
+        orderItems: products,
+
+        shippingAddress: {
+          addressId: null,
+          name: null,
+          lastName: null,
+          phone: null,
+          address: null,
+          flor: null,
+          department: null,
+          city: null,
+          province: null,
+          zip: null,
+          lat: null,
+          lng: null,
+        },
+
+        deliveryTruck: null,
+        employee: null, //este esta de mas, borrar
+        deliveryZone: null,
+        numberOfItems: products.length,
+        tax: 0,
+        subTotal: subTotal,
+        total: subTotal,
+
+        status: "Pendiente", // Entregado
+        active: false, //solo si es de reparto
+
+        commentary: "",
+
+        payment: {
+          cash: 0,
+          transfer: 0,
+          debt: 0,
+        },
+
+        paid: false,
+        discount: 0,
+
+        deliveryDate: null,
+
+        //datos que no va a DB
+        orderId: uuidv4(),
+        clientFullName: `${client.user.name} ${client.user.lastName}`,
+        date: new Date(),
+      })
+    );
+    dispatch(clearCart());
   };
 
   return (
@@ -67,16 +131,25 @@ export const Ticket = () => {
         <div className={styles.ticket_code}>Cod. 2315641312465132</div>
       </div>
       <div className={styles.products}>
-        {products.map((ofert) => (
-          <Product ofert={ofert} key={ofert._id} />
+        {products.map((product) => (
+          <Product product={product} key={product.uniqueId} />
         ))}
       </div>
       <div className={styles.bottom}>
-        <div className={styles.client}>
-          <div className={styles.flex}>
-            <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
-            <h4>Juan Carlos Moreno</h4>
-          </div>
+        <div className={styles.client} onClick={() => dispatch(openClient())}>
+          {client ? (
+            <div className={styles.flex} style={{ padding: "10px" }}>
+              <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
+              <h4>{`${client.user.name} ${client.user.lastName}`}</h4>
+            </div>
+          ) : (
+            <div className={styles.client_empty}>
+              <p>⚠ Se debe cargar un cliente </p>
+              <p className={styles.client_empty_text}>
+                (click aquí para cargar)
+              </p>
+            </div>
+          )}
         </div>
         <div className={styles.total}>
           <div className={styles.flex}>
@@ -97,8 +170,19 @@ export const Ticket = () => {
           </div>
         </div>
         <div className={styles.footer}>
-          <button className={styles.ticket_btn_send}>Enviar a caja</button>
-          <button className={styles.ticket_btn_cancel}>Cancelar orden</button>
+          <button
+            className={styles.ticket_btn_send}
+            onClick={handleSendOrder}
+            disabled={!products || !client}
+          >
+            Enviar a caja
+          </button>
+          <button
+            className={styles.ticket_btn_cancel}
+            onClick={() => dispatch(clearCart())}
+          >
+            Cancelar orden
+          </button>
         </div>
       </div>
     </section>

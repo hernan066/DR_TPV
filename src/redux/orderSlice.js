@@ -18,17 +18,10 @@ const orderSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      state.products = [
-        ...state.products,
-        {
-          ...action.payload,
-          quantity: 1,
-          totalPrice: action.payload.retailPrice,
-        },
-      ];
+      state.products = [...state.products, action.payload];
 
       const sub = state.products.reduce((acc, cur) => {
-        return acc + cur.retailPrice;
+        return acc + cur.totalPrice;
       }, 0);
 
       state.subTotal = sub;
@@ -42,7 +35,7 @@ const orderSlice = createSlice({
     },
     deleteProduct: (state, action) => {
       state.products = state.products.filter(
-        (product) => product._id !== action.payload
+        (product) => product.uniqueId !== action.payload
       );
       state.subTotal = state.products.reduce((acc, cur) => {
         return acc + cur.totalPrice;
@@ -51,12 +44,12 @@ const orderSlice = createSlice({
     },
     updateProduct: (state, action) => {
       state.products = state.products.map((product) => {
-        if (product._id === action.payload.id) {
+        if (product.uniqueId === action.payload.id) {
           return {
             ...product,
-            finalPrice: +action.payload.finalPrice,
-            finalQuantity: +action.payload.finalQuantity,
-            basePrice: +action.payload.basePrice,
+            totalPrice: +action.payload.finalPrice,
+            totalQuantity: +action.payload.finalQuantity,
+            unitPrice: +action.payload.basePrice,
           };
         } else {
           return product;
@@ -64,16 +57,16 @@ const orderSlice = createSlice({
       });
 
       state.subTotal = state.products.reduce((acc, cur) => {
-        return acc + cur.finalPrice;
+        return acc + cur.totalPrice;
       }, 0);
     },
     updateQuantityProduct: (state, action) => {
       state.products = state.products.map((product) => {
-        if (product._id === action.payload.id) {
+        if (product.uniqueId === action.payload.id) {
           return {
             ...product,
-            totalPrice: +action.payload.quantity * product.retailPrice,
-            quantity: +action.payload.quantity,
+            totalPrice: +action.payload.quantity * product.unitPrice,
+            totalQuantity: +action.payload.quantity,
           };
         } else {
           return product;

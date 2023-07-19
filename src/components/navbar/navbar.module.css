@@ -11,6 +11,16 @@
   height: 50px;
   width: 50px;
   font-size: 20px;
+  cursor: pointer;
+}
+.navbar_btn_active {
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: rgb(133, 133, 133);
+  color: white;
+  border: none;
 }
 .navbar_input {
   height: 50px;
@@ -19,4 +29,43 @@
   font-size: 22px;
   outline: none;
   border: none;
+}
+
+.dropdown {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+.dropdown:empty {
+  border: none;
+  height: 0;
+}
+
+.dropdown_row {
+  cursor: pointer;
+  text-align: start;
+  padding: 8px 10px;
+  font-size: 20px;
+}
+.dropdown_row:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+.btn_menu {
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  margin-right: 20px;
+  color: white;
+}
+.btn_menu svg {
+  height: 30px;
+  width: 30px;
 }

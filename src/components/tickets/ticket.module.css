@@ -73,6 +73,15 @@
   border: none;
   font-size: 20px;
 }
+.ticket_btn_send:disabled {
+  height: 60px;
+  width: 50%;
+  background-color: rgb(162, 161, 161);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: not-allowed;
+}
 .ticket_btn_cancel {
   height: 60px;
   width: 50%;
@@ -93,8 +102,13 @@
 .client {
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
-  padding: 10px;
+
   font-size: 23px;
+  transition: all 0.3s;
+}
+.client:hover {
+  background-color: #eee;
+  cursor: pointer;
 }
 .divider {
   height: 1px;
@@ -130,4 +144,12 @@
   position: relative;
   bottom: 3px;
   padding: 0 5px;
+}
+.client_empty {
+  background-color: #f2f295;
+  text-align: center;
+  padding: 10px;
+}
+.client_empty_text {
+  font-size: 15px;
 }

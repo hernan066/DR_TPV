@@ -1,0 +1,39 @@
+.container {
+  height: 85vh;
+  width: 100%;
+}
+.order_container {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  font-size: 20px;
+  color: #4e4e4e;
+}
+.order_container_active {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  font-size: 20px;
+  color: white;
+  background-color: rgba(77, 153, 246, 0.892);
+}
+.order_container:hover {
+  color: white;
+  background-color: #aaa;
+  cursor: pointer;
+}
+.col1 {
+  width: 15%;
+}
+.col2 {
+  width: 40%;
+}
+.col3 {
+  width: 40%;
+}
+.col4 {
+  width: 15%;
+  text-align: right;
+}

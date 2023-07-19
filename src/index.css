@@ -76,3 +76,6 @@
   color: red;
   margin-left: 40px;
 }
+button:hover {
+  cursor: pointer;
+}

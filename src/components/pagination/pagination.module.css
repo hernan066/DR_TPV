@@ -17,6 +17,9 @@
   width: 35px;
   height: 35px;
 }
+.products_pagination_flex svg:hover {
+  cursor: pointer;
+}
 .flex {
   display: flex;
   gap: 40px;

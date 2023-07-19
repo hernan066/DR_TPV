@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./keypad.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { closeKeypad } from "../../redux/uiSlice";
@@ -45,6 +45,21 @@ export const Keypad = () => {
     );
     dispatch(closeKeypad());
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Escape") {
+      dispatch(closeKeypad());
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section

@@ -6,8 +6,13 @@ import {
   BsChevronRight,
 } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearSearchOfert } from "../../redux/ofertsSlice";
 
 export const Pagination = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div className={styles.products_pagination}>
       <div className={styles.products_pagination_flex}>
@@ -16,7 +21,12 @@ export const Pagination = () => {
           <BsChevronDoubleLeft />
           <BsChevronLeft />
 
-          <AiOutlineHome />
+          <AiOutlineHome
+            onClick={() => {
+              navigate("/");
+              dispatch(clearSearchOfert());
+            }}
+          />
 
           <BsChevronRight />
           <BsChevronDoubleRight />
