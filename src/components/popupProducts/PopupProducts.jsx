@@ -1,37 +1,21 @@
-import { useEffect } from "react";
-import { useGetCategoriesQuery } from "../../api/apiCategory";
-import { useGetClientsQuery } from "../../api/apiClient";
+import { useEffect, useState } from "react";
 import { useGetOfertWithCategoryQuery } from "../../api/apiOfert";
-import { Categories } from "../categories/Categories";
 import Loading from "../loading/Loading";
 import styles from "./popupProducts.module.css";
 import { useDispatch } from "react-redux";
-import { getAllClients } from "../../redux/clientsSlice";
 import { getAllOferts } from "../../redux/ofertsSlice";
-import { Pagination } from "../pagination/Pagination";
-import { Navbar } from "../navbar/Navbar";
 import { closePopupProducts } from "../../redux/uiSlice";
+import { Navbar } from "./componets/Navbar/Navbar";
+import { ProductsList } from "./componets/ProductsList/ProductsList";
 
 export const PopupProducts = () => {
   const dispatch = useDispatch();
-  const {
-    data: categoriesData,
-    isLoading: l1,
-    isError: e1,
-  } = useGetCategoriesQuery();
+
   const {
     data: ofertsData,
-    isLoading: l2,
-    isError: e2,
+    isLoading: l1,
+    isError: e1,
   } = useGetOfertWithCategoryQuery();
-
-  const { data: allClients, isLoading: l3, isError: e3 } = useGetClientsQuery();
-
-  useEffect(() => {
-    if (allClients) {
-      dispatch(getAllClients(allClients.data.clients));
-    }
-  }, [allClients, dispatch]);
 
   useEffect(() => {
     if (ofertsData) {
@@ -53,19 +37,18 @@ export const PopupProducts = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [value, setValue] = useState("");
+
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
-        <Navbar />
-        {(l1 || l2 || l3) && <Loading />}
-        {(e1 || e2 || e3) && <p>Ha ocurrido un error</p>}
-        {categoriesData && ofertsData && (
-          <Categories
-            categories={categoriesData.categories}
-            oferts={ofertsData.data.oferts}
-          />
+        <Navbar value={value} setValue={setValue} />
+        {l1 && <Loading />}
+        {e1 && <p>Ha ocurrido un error</p>}
+        {ofertsData && (
+          <ProductsList oferts={ofertsData.data.oferts} value={value} />
         )}
-        <Pagination />
       </div>
     </section>
   );

@@ -1,0 +1,39 @@
+.container {
+  height: 70px;
+  width: 100%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.search {
+  width: 85%;
+}
+.search input {
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  outline: none;
+  border: none;
+}
+.search button {
+  width: 20%;
+  padding: 15px;
+  font-size: 20px;
+  border: none;
+  background-color: rgb(115, 115, 115);
+  color: white;
+}
+.btn_close {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+.btn_close svg {
+  height: 30px;
+  width: 30px;
+}

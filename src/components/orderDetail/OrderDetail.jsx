@@ -170,6 +170,7 @@ export const OrderDetail = () => {
         <button
           className={styles.ticket_btn_products}
           onClick={() => dispatch(openPopupProducts())}
+          disabled={!selectOrder}
         >
           +Productos
         </button>

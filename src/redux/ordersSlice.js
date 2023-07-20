@@ -152,6 +152,41 @@ const ordersListSlice = createSlice({
       state.selectOrder = null;
       state.activeProduct = null;
     },
+    updateProductOrder: (state, action) => {
+      const newProduct = action.payload;
+      const productUpdate = state.selectOrder.orderItems;
+      productUpdate.push(newProduct);
+      const subTotal = productUpdate.reduce((acc, cur) => {
+        return acc + cur.totalPrice;
+      }, 0);
+
+      const total =
+        productUpdate.reduce((acc, cur) => {
+          return acc + cur.totalPrice;
+        }, 0) + state.selectOrder.tax;
+
+      state.selectOrder = {
+        ...state.selectOrder,
+        numberOfItems: productUpdate.length,
+        orderItems: productUpdate,
+        subTotal,
+        total,
+      };
+
+      //actualizar orderList
+      state.orders = state.orders.map((order) => {
+        if (order.orderId === state.selectOrder.orderId) {
+          return {
+            ...order,
+            orderItems: productUpdate,
+            subTotal,
+            total,
+          };
+        } else {
+          return order;
+        }
+      });
+    },
   },
 });
 
@@ -165,5 +200,6 @@ export const {
   updatePriceActiveProduct,
   deleteActiveProduct,
   deleteOrder,
+  updateProductOrder,
 } = ordersListSlice.actions;
 export default ordersListSlice.reducer;

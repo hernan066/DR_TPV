@@ -86,6 +86,7 @@
   color: white;
   border: none;
   font-size: 20px;
+  cursor: not-allowed;
 }
 .footer {
   background-color: #ddd;
