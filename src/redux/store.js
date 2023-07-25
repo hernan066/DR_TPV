@@ -5,16 +5,18 @@ import orderReducer from "./orderSlice";
 import clientsReducer from "./clientsSlice";
 import ofertsReducer from "./ofertsSlice";
 import ordersListReducer from "./ordersSlice";
+import userReducer from "./userSlice";
 import { authApi } from "../api/apiAuth";
 
 export const store = configureStore({
   reducer: {
-    authDelivery: authReducer,
+    auth: authReducer,
     ui: uiReducer,
     order: orderReducer,
     ordersList: ordersListReducer,
     clients: clientsReducer,
     oferts: ofertsReducer,
+    user: userReducer,
 
     [authApi.reducerPath]: authApi.reducer,
   },

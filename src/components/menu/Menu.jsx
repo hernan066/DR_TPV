@@ -3,6 +3,7 @@ import styles from "./menu.module.css";
 import { GrClose } from "react-icons/gr";
 import { closeMenu } from "../../redux/uiSlice";
 import { Link } from "react-router-dom";
+import { logOut } from "../../redux/authSlice";
 
 export const Menu = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const Menu = () => {
         </Link>
         <li>Abrir Caja</li>
         <li>Cerrar Caja</li>
-        <li>Cerrar Sesión</li>
+        <li onClick={() => dispatch(logOut())}>Cerrar Sesión</li>
       </ul>
     </section>
   );

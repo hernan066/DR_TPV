@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().authDelivery.token;
+    const token = getState().auth.token;
 
     if (token) {
       headers.set("x-token", token);
@@ -26,7 +26,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     console.log(refreshResult);
 
     if (refreshResult?.data) {
-      const user = api.getState().authDelivery.user;
+      const user = api.getState().auth.user;
       // store the new token
       api.dispatch(setCredentials({ ...refreshResult.data, user }));
       // retry the original query with new access token

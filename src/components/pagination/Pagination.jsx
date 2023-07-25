@@ -7,16 +7,19 @@ import {
 } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearSearchOfert } from "../../redux/ofertsSlice";
 
 export const Pagination = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className={styles.products_pagination}>
       <div className={styles.products_pagination_flex}>
-        <div>Pagina 1 / 3</div>
+        <div>
+          Vendedor {user?.name} {user?.lastName}
+        </div>
         <div className={styles.flex}>
           <BsChevronDoubleLeft />
           <BsChevronLeft />

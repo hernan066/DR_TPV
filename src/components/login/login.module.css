@@ -5,7 +5,7 @@
 .left {
   width: 65%;
   overflow: hidden;
-  background-color: red;
+  background-color: #ee1702;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,7 @@
 .form_container {
   padding: 40px 20px;
   text-align: center;
-  min-width: 350px;
+  width: 350px;
   border: 1px solid #666;
   border-radius: 10px;
 }
@@ -55,4 +55,11 @@
   font-family: var(--font-1);
   border: none;
   border-bottom: 1px solid #666;
+  outline: none;
+}
+.error {
+  background-color: khaki;
+  padding: 10px 5px;
+  margin-top: 20px;
+  line-height: 22px;
 }

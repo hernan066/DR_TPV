@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./ticket.module.css";
-import { openClient, openKeypad } from "../../redux/uiSlice";
+import {
+  keypadModeQuantity,
+  openClient,
+  openKeypad,
+} from "../../redux/uiSlice";
 import {
   clearActiveProduct,
   clearCart,
@@ -50,6 +54,7 @@ export const Ticket = () => {
   const { products, client, active, subTotal } = useSelector(
     (store) => store.order
   );
+  const { user } = useSelector((store) => store.auth);
 
   const handleDelete = () => {
     dispatch(deleteProduct(active));
@@ -59,8 +64,9 @@ export const Ticket = () => {
     dispatch(
       addOrder({
         userCashier: null, // id del usuario cajero
-        userSeller: null, // id del usuario vendedor
+        userSeller: user, // id del usuario vendedor
         client: client._id,
+        cashierMode: true, // para ser vista por el cajero al buscar en db
 
         orderItems: products,
 
@@ -131,7 +137,10 @@ export const Ticket = () => {
         </button>
         <button
           className={styles.ticket_btn_quantity}
-          onClick={() => dispatch(openKeypad())}
+          onClick={() => {
+            dispatch(openKeypad());
+            dispatch(keypadModeQuantity());
+          }}
           disabled={!active ? true : false}
         >
           Cantidad

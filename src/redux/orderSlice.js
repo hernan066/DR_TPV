@@ -65,8 +65,8 @@ const orderSlice = createSlice({
         if (product.uniqueId === action.payload.id) {
           return {
             ...product,
-            totalPrice: +action.payload.quantity * product.unitPrice,
-            totalQuantity: +action.payload.quantity,
+            totalPrice: +action.payload.value * product.unitPrice,
+            totalQuantity: +action.payload.value,
           };
         } else {
           return product;

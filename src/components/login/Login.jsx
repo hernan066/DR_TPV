@@ -2,17 +2,36 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import styles from "./login.module.css";
 
 import * as Yup from "yup";
+import { useLoginMutation } from "../../api/apiAuth";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Formato invalido").required("Requerido"),
   password: Yup.string().min(6, "6 caracteres mínimo").required("Requerido"),
 });
 
-const handleSubmit = () => {};
-
-const isLoading = false;
-
 export const Login = () => {
+  const [login, { isLoading, isError, error }] = useLoginMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    try {
+      const userData = await login({
+        email: values.email,
+        password: values.password,
+      }).unwrap();
+      if (userData) {
+        dispatch(setCredentials({ ...userData }));
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <main className={styles.container}>
       <div className={styles.left}>
@@ -82,6 +101,12 @@ export const Login = () => {
                 >
                   <span className="button__text">Enviar</span>
                 </button>
+                {isError && (
+                  <div className={styles.error}>
+                    <p>⚠ Error:</p>
+                    <p>{error.data?.msg || "Ha ocurrido un error"}</p>
+                  </div>
+                )}
               </Form>
             )}
           </Formik>
