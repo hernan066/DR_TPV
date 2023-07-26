@@ -1,0 +1,170 @@
+.container {
+  background-color: rgba(0, 0, 0, 0.883);
+  position: fixed;
+  min-height: 100vh;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.window_container {
+  background-color: #f1f1f1;
+  width: 70%;
+  height: 92vh;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+.close svg {
+  width: 30px;
+  height: 30px;
+}
+.nav {
+  height: 60px;
+  background-color: red;
+  width: 100%;
+}
+.products {
+  border: 1px solid #ccc;
+  height: 41vh;
+  background-color: #ffffff;
+  margin: 0 20px;
+  overflow-y: scroll;
+}
+.product {
+  display: flex;
+  padding: 20px;
+
+  border-bottom: 1px solid #ccc;
+  background-color: white;
+}
+.titles {
+  display: flex;
+  padding: 20px 20px;
+  background-color: #9a9a9a;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+.col1 {
+  width: 15%;
+}
+.col2 {
+  width: 50%;
+}
+.col3 {
+  width: 20%;
+}
+.col4 {
+  width: 20%;
+  text-align: right;
+}
+.data {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.data_entry {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 33%;
+
+  padding: 10px;
+}
+.input_container input {
+  padding: 15px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.input_container button {
+  padding: 15px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid green;
+  color: rgb(255, 255, 255);
+  background-color: #93b091;
+}
+
+#btn_debt {
+  padding: 15px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid red;
+  color: rgb(255, 255, 255);
+  background-color: #b09191;
+}
+.send_order {
+  padding: 18px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.send_order button {
+  padding: 15px;
+  width: 50%;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: rgb(210, 0, 0);
+  color: white;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#btn_ticket {
+  padding: 15px;
+  width: 50%;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: #85605c;
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(210, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#btn_ticket svg {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+.send_order button svg {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+.totals {
+  padding: 0 20px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+}

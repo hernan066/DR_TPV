@@ -9,6 +9,7 @@ const uiSlice = createSlice({
     mode: "letter", // scanner, code, letter
     menu: false,
     keypad_mode: "",
+    cashOut: false,
   },
   reducers: {
     openKeypad: (state) => {
@@ -44,6 +45,12 @@ const uiSlice = createSlice({
     keypadModePrice: (state) => {
       state.keypad_mode = "price";
     },
+    openCashOut: (state) => {
+      state.cashOut = true;
+    },
+    closeCashOut: (state) => {
+      state.cashOut = false;
+    },
   },
 });
 
@@ -59,5 +66,7 @@ export const {
   keypadModePrice,
   openPopupProducts,
   closePopupProducts,
+  openCashOut,
+  closeCashOut,
 } = uiSlice.actions;
 export default uiSlice.reducer;

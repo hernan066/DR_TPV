@@ -4,6 +4,7 @@ import styles from "./ticket.module.css";
 import {
   keypadModePrice,
   keypadModeQuantity,
+  openCashOut,
   openClient,
   openKeypad,
   openPopupProducts,
@@ -91,7 +92,7 @@ export const OrderDetail = () => {
     });
   };
 
-  const handleSendOrder = () => {
+  /* const handleSendOrder = () => {
     console.log(selectOrder);
     /*    dispatch(
       addOrder({
@@ -146,8 +147,8 @@ export const OrderDetail = () => {
         date: new Date(),
       })
     );
-    dispatch(clearCart()); */
-  };
+    dispatch(clearCart()); 
+  }; */
 
   useEffect(() => {
     if (isError)
@@ -239,7 +240,7 @@ export const OrderDetail = () => {
           <button
             className={`btn-load ${isLoading ? "button--loading" : ""}`}
             type="submit"
-            onClick={handleSendOrder}
+            onClick={() => dispatch(openCashOut())}
             disabled={!selectOrder || isLoading}
             style={{ width: "50%", padding: "20px" }}
           >

@@ -8,12 +8,16 @@ import { Menu } from "../menu/Menu";
 import { OrderDetail } from "../orderDetail/OrderDetail";
 import { NavbarOrder } from "../navbarOrder/NavbarOrder";
 import { PopupProducts } from "../popupProducts/PopupProducts";
+import { CashOut } from "../cashOut/CashOut";
 
 export const CashierLayout = ({ children }) => {
-  const { keypad, client, popupProducts } = useSelector((store) => store.ui);
+  const { keypad, client, popupProducts, cashOut } = useSelector(
+    (store) => store.ui
+  );
   return (
     <>
       <Menu />
+      {cashOut && <CashOut />}
       {popupProducts && <PopupProducts />}
       {keypad && <Keypad />}
       {client && <Client />}
