@@ -33,6 +33,15 @@ export const ofertApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 3 },
       providesTags: ["oferts"],
     }),
+    postOrder: builder.mutation({
+      query: (newOrders) => ({
+        url: "/orders/local",
+        method: "post",
+        body: newOrders,
+      }),
+      invalidatesTags: ["orders"],
+      extraOptions: { maxRetries: 0 },
+    }),
   }),
 });
 
@@ -41,4 +50,5 @@ export const {
   useGetOfertQuery,
   useGetOfertByProductIdQuery,
   useGetOfertWithCategoryQuery,
+  usePostOrderMutation,
 } = ofertApi;

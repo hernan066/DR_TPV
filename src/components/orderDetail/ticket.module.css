@@ -165,13 +165,19 @@
 }
 
 .product_active {
-  background-color: rgba(77, 153, 246, 0.892);
+  background-color: rgba(102, 113, 126, 0.892);
   color: white;
   padding: 10px;
+}
+.product_active:hover {
+  cursor: pointer;
 }
 .product {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+}
+.product:hover {
+  cursor: pointer;
 }
 .quantity {
   background-color: #666;

@@ -11,6 +11,9 @@ const ordersListSlice = createSlice({
     addOrder: (state, action) => {
       state.orders = [...state.orders, action.payload];
     },
+    addOrders: (state, action) => {
+      state.orders = action.payload;
+    },
     addSelectOrder: (state, action) => {
       state.selectOrder = action.payload;
     },
@@ -192,6 +195,7 @@ const ordersListSlice = createSlice({
 
 export const {
   addOrder,
+  addOrders,
   addSelectOrder,
   clearSelectOrder,
   setActiveProduct,

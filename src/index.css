@@ -50,6 +50,13 @@
   box-shadow: 2px 2px 5px #887c7c;
   transform: scale(1.003);
 }
+.grey {
+  background-color: #666;
+}
+.btn-load:disabled {
+  background-color: #292c2c;
+  cursor: not-allowed;
+}
 
 .button--loading .button__text {
   visibility: hidden;

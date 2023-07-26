@@ -16,25 +16,25 @@ import {
   setActiveProduct,
 } from "../../redux/ordersSlice";
 import Swal from "sweetalert2";
+import { useDeleteOrderMutation } from "../../api/apiOrder";
+import { useEffect } from "react";
 
 const Product = ({ product }) => {
   const { activeProduct } = useSelector((store) => store.ordersList);
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (activeProduct == product.uniqueId) {
+    if (activeProduct == product._id) {
       dispatch(clearActiveProduct());
     } else {
       dispatch(clearActiveProduct());
-      dispatch(setActiveProduct(product.uniqueId));
+      dispatch(setActiveProduct(product._id));
     }
   };
 
   return (
     <div
       className={
-        activeProduct !== product.uniqueId
-          ? styles.product
-          : styles.product_active
+        activeProduct !== product._id ? styles.product : styles.product_active
       }
       onClick={handleClick}
     >
@@ -56,6 +56,8 @@ export const OrderDetail = () => {
   const { selectOrder, activeProduct } = useSelector(
     (store) => store.ordersList
   );
+
+  const [deleteOrderApi, { isLoading, isError }] = useDeleteOrderMutation();
 
   const handleDelete = () => {
     Swal.fire({
@@ -81,7 +83,10 @@ export const OrderDetail = () => {
       confirmButtonText: "Borrar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        dispatch(deleteOrder(selectOrder.orderId));
+        const res = await deleteOrderApi(selectOrder._id);
+        if (res.data.ok) {
+          dispatch(deleteOrder(selectOrder.orderId));
+        }
       }
     });
   };
@@ -144,6 +149,18 @@ export const OrderDetail = () => {
     dispatch(clearCart()); */
   };
 
+  useEffect(() => {
+    if (isError)
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error, la orden no fue borrada",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+  }, [isError]);
+
   return (
     <section className={styles.container}>
       <div className={styles.navbar}>
@@ -185,16 +202,18 @@ export const OrderDetail = () => {
       {selectOrder && (
         <div className={styles.products}>
           {selectOrder.orderItems.map((product) => (
-            <Product product={product} key={product.uniqueId} />
+            <Product product={product} key={product._id} />
           ))}
         </div>
       )}
       <div className={styles.bottom}>
         <div className={styles.client} onClick={() => dispatch(openClient())}>
-          {selectOrder && selectOrder.clientFullName && (
+          {selectOrder && selectOrder.userId && (
             <div className={styles.flex} style={{ padding: "10px" }}>
               <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
-              <h4>{selectOrder.clientFullName}</h4>
+              <h4>
+                {selectOrder.userId.name} {selectOrder.userId.lastName}
+              </h4>
             </div>
           )}
         </div>
@@ -218,18 +237,22 @@ export const OrderDetail = () => {
         </div>
         <div className={styles.footer}>
           <button
-            className={styles.ticket_btn_send}
-            disabled={!selectOrder}
+            className={`btn-load ${isLoading ? "button--loading" : ""}`}
+            type="submit"
             onClick={handleSendOrder}
+            disabled={!selectOrder || isLoading}
+            style={{ width: "50%", padding: "20px" }}
           >
-            $ Cobrar
+            <span className="button__text">$ Cobrar</span>
           </button>
           <button
-            className={styles.ticket_btn_cancel}
-            disabled={!selectOrder}
+            className={`btn-load grey ${isLoading ? "button--loading" : ""}`}
+            type="submit"
             onClick={handleDeleteOrder}
+            disabled={!selectOrder || isLoading}
+            style={{ width: "50%", padding: "20px" }}
           >
-            Borrar Orden
+            <span className="button__text">Borrar orden</span>
           </button>
         </div>
       </div>

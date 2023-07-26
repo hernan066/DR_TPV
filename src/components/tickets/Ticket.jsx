@@ -13,9 +13,11 @@ import {
   setActiveProduct,
 } from "../../redux/orderSlice";
 import { formatPrice } from "../../utils/formatPrice";
-import { addOrder } from "../../redux/ordersSlice";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
+import { usePostOrderMutation } from "../../api/apiOfert";
+import { useContext, useEffect } from "react";
+import { SocketContext } from "../../context/SocketContext";
 
 const Product = ({ product }) => {
   const { active } = useSelector((store) => store.order);
@@ -51,79 +53,102 @@ const Product = ({ product }) => {
 
 export const Ticket = () => {
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const { products, client, active, subTotal } = useSelector(
     (store) => store.order
   );
   const { user } = useSelector((store) => store.auth);
 
+  const [sendOrder, { isLoading, isError }] = usePostOrderMutation();
+
   const handleDelete = () => {
     dispatch(deleteProduct(active));
   };
 
-  const handleSendOrder = () => {
-    dispatch(
-      addOrder({
-        userCashier: null, // id del usuario cajero
-        userSeller: user, // id del usuario vendedor
-        client: client._id,
-        cashierMode: true, // para ser vista por el cajero al buscar en db
+  const handleSendOrder = async () => {
+    const order = {
+      userCashier: null, // id del usuario cajero
+      userSeller: user, // id del usuario vendedor
+      client: client._id,
+      userId: client.user._id,
+      cashierMode: true, // para ser vista por el cajero al buscar en db
 
-        orderItems: products,
+      orderItems: products,
 
-        shippingAddress: {
-          addressId: null,
-          name: null,
-          lastName: null,
-          phone: null,
-          address: null,
-          flor: null,
-          department: null,
-          city: null,
-          province: null,
-          zip: null,
-          lat: null,
-          lng: null,
-        },
+      shippingAddress: {
+        addressId: null,
+        name: null,
+        lastName: null,
+        phone: null,
+        address: null,
+        flor: null,
+        department: null,
+        city: null,
+        province: null,
+        zip: null,
+        lat: null,
+        lng: null,
+      },
 
-        deliveryTruck: null,
-        employee: null, //este esta de mas, borrar
-        deliveryZone: null,
-        numberOfItems: products.length,
-        tax: 0,
-        subTotal: subTotal,
-        total: subTotal,
+      deliveryTruck: null,
+      employee: null, //este esta de mas, borrar
+      deliveryZone: null,
+      numberOfItems: products.length,
+      tax: 0,
+      subTotal: subTotal,
+      total: subTotal,
 
-        status: "Pendiente", // Entregado
-        active: false, //solo si es de reparto
+      status: "Pendiente", // Entregado
+      active: false, //solo si es de reparto
 
-        commentary: "",
+      commentary: "",
 
-        payment: {
-          cash: 0,
-          transfer: 0,
-          debt: 0,
-        },
+      payment: {
+        cash: 0,
+        transfer: 0,
+        debt: 0,
+      },
 
-        paid: false,
-        discount: 0,
+      paid: false,
+      discount: 0,
 
-        deliveryDate: null,
+      deliveryDate: null,
 
-        //datos que no va a DB
-        orderId: uuidv4(),
-        clientFullName: `${client.user.name} ${client.user.lastName}`,
-        date: new Date(),
-      })
-    );
-    dispatch(clearCart());
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Orden enviada a caja",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+      state: false, // cambiar en produccion
+
+      //datos que no va a DB
+      orderId: uuidv4(),
+      clientFullName: `${client.user.name} ${client.user.lastName}`,
+      date: new Date(),
+    };
+
+    const res = await sendOrder(order);
+
+    if (res.data.ok) {
+      socket.emit("order", order);
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Orden enviada a caja",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      dispatch(clearCart());
+    }
   };
+
+  useEffect(() => {
+    if (isError)
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error, orden no enviada",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+  }, [isError]);
 
   return (
     <section className={styles.container}>
@@ -187,12 +212,21 @@ export const Ticket = () => {
           </div>
         </div>
         <div className={styles.footer}>
-          <button
+          {/* <button
             className={styles.ticket_btn_send}
             onClick={handleSendOrder}
             disabled={!products || !client}
           >
             Enviar a caja
+          </button> */}
+          <button
+            className={`btn-load ${isLoading ? "button--loading" : ""}`}
+            type="submit"
+            onClick={handleSendOrder}
+            disabled={!products || !client || isLoading}
+            style={{ width: "50%", padding: "20px" }}
+          >
+            <span className="button__text">Enviar</span>
           </button>
           <button
             className={styles.ticket_btn_cancel}
