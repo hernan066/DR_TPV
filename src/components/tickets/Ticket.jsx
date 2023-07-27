@@ -72,6 +72,7 @@ export const Ticket = () => {
       client: client._id,
       userId: client.user._id,
       cashierMode: true, // para ser vista por el cajero al buscar en db
+      receiptId: Date.now(),
 
       orderItems: products,
 

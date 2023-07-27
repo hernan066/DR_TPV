@@ -2,12 +2,9 @@ import { useEffect } from "react";
 import styles from "./cashOut.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCashOut } from "../../redux/uiSlice";
-import {
-  AiOutlineCheck,
-  AiOutlineClose,
-  AiOutlinePrinter,
-} from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { formatPrice } from "../../utils/formatPrice";
+import { Receipt } from "../receipt/Receipt";
 
 export const CashOut = () => {
   const { selectOrder } = useSelector((store) => store.ordersList);
@@ -123,9 +120,7 @@ export const CashOut = () => {
               </div>
             </div>
             <div className={styles.send_order}>
-              <button id={styles.btn_ticket}>
-                <AiOutlinePrinter /> Imprimir Ticket
-              </button>
+              <Receipt />
               <button>
                 <AiOutlineCheck /> Confirmar compra
               </button>
