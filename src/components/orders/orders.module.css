@@ -1,6 +1,7 @@
 .container {
-  height: 85vh;
+  height: 92vh;
   width: 100%;
+  overflow-y: scroll;
 }
 .order_container {
   display: flex;

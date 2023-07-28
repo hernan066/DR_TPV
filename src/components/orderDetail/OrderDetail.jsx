@@ -24,18 +24,20 @@ const Product = ({ product }) => {
   const { activeProduct } = useSelector((store) => store.ordersList);
   const dispatch = useDispatch();
   const handleClick = () => {
-    if (activeProduct == product._id) {
+    if (activeProduct == product.uniqueId) {
       dispatch(clearActiveProduct());
     } else {
       dispatch(clearActiveProduct());
-      dispatch(setActiveProduct(product._id));
+      dispatch(setActiveProduct(product.uniqueId));
     }
   };
 
   return (
     <div
       className={
-        activeProduct !== product._id ? styles.product : styles.product_active
+        activeProduct !== product.uniqueId
+          ? styles.product
+          : styles.product_active
       }
       onClick={handleClick}
     >
@@ -92,64 +94,6 @@ export const OrderDetail = () => {
     });
   };
 
-  /* const handleSendOrder = () => {
-    console.log(selectOrder);
-    /*    dispatch(
-      addOrder({
-        userCashier: null, // id del usuario cajero
-        userSeller: null, // id del usuario vendedor
-        client: client._id,
-
-        orderItems: products,
-
-        shippingAddress: {
-          addressId: null,
-          name: null,
-          lastName: null,
-          phone: null,
-          address: null,
-          flor: null,
-          department: null,
-          city: null,
-          province: null,
-          zip: null,
-          lat: null,
-          lng: null,
-        },
-
-        deliveryTruck: null,
-        employee: null, //este esta de mas, borrar
-        deliveryZone: null,
-        numberOfItems: products.length,
-        tax: 0,
-        subTotal: subTotal,
-        total: subTotal,
-
-        status: "Pendiente", // Entregado
-        active: false, //solo si es de reparto
-
-        commentary: "",
-
-        payment: {
-          cash: 0,
-          transfer: 0,
-          debt: 0,
-        },
-
-        paid: false,
-        discount: 0,
-
-        deliveryDate: null,
-
-        //datos que no va a DB
-        orderId: uuidv4(),
-        clientFullName: `${client.user.name} ${client.user.lastName}`,
-        date: new Date(),
-      })
-    );
-    dispatch(clearCart()); 
-  }; */
-
   useEffect(() => {
     if (isError)
       Swal.fire({
@@ -203,17 +147,18 @@ export const OrderDetail = () => {
       {selectOrder && (
         <div className={styles.products}>
           {selectOrder.orderItems.map((product) => (
-            <Product product={product} key={product._id} />
+            <Product product={product} key={product.uniqueId} />
           ))}
         </div>
       )}
       <div className={styles.bottom}>
         <div className={styles.client} onClick={() => dispatch(openClient())}>
-          {selectOrder && selectOrder.userId && (
+          {selectOrder && (
             <div className={styles.flex} style={{ padding: "10px" }}>
               <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
               <h4>
-                {selectOrder.userId.name} {selectOrder.userId.lastName}
+                {selectOrder.shippingAddress?.name}{" "}
+                {selectOrder.shippingAddress?.lastName}
               </h4>
             </div>
           )}

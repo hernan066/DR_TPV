@@ -78,9 +78,9 @@ export const Ticket = () => {
 
       shippingAddress: {
         addressId: null,
-        name: null,
-        lastName: null,
-        phone: null,
+        name: client.user.name,
+        lastName: client.user.lastName,
+        phone: client.user.phone,
         address: null,
         flor: null,
         department: null,
@@ -115,7 +115,7 @@ export const Ticket = () => {
 
       deliveryDate: null,
 
-      state: false, // cambiar en produccion
+      state: false, // cambiar en producción
 
       //datos que no va a DB
       orderId: uuidv4(),
@@ -126,7 +126,7 @@ export const Ticket = () => {
     const res = await sendOrder(order);
 
     if (res.data.ok) {
-      socket.emit("order", order);
+      socket.emit("order", res.data.data.order);
 
       Swal.fire({
         position: "center",

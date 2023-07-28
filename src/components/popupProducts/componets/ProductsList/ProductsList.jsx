@@ -18,7 +18,7 @@ const ProductStock = ({ selectOfert, setSelectOfert }) => {
   const handleClick = (stock) => {
     dispatch(
       updateProductOrder({
-        uniqueId: uuidv4(), //este solo sirve para el carrito, no va a db
+        uniqueId: uuidv4(), //nuevo, este va db
         productId: selectOfert.product._id,
         name: selectOfert.product.name,
         unit: selectOfert.product.unit,

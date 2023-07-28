@@ -57,7 +57,7 @@ const ordersListSlice = createSlice({
       };
       //actualizar orderList
       state.orders = state.orders.map((order) => {
-        if (order.orderId === state.selectOrder.orderId) {
+        if (order._id === state.selectOrder._id) {
           return {
             ...order,
             orderItems: productUpdate,
@@ -100,7 +100,7 @@ const ordersListSlice = createSlice({
 
       //actualizar orderList
       state.orders = state.orders.map((order) => {
-        if (order.orderId === state.selectOrder.orderId) {
+        if (order._id === state.selectOrder._id) {
           return {
             ...order,
             orderItems: productUpdate,
@@ -134,7 +134,7 @@ const ordersListSlice = createSlice({
 
       //actualizar orderList
       state.orders = state.orders.map((order) => {
-        if (order.orderId === state.selectOrder.orderId) {
+        if (order._id === state.selectOrder._id) {
           return {
             ...order,
             orderItems: productUpdate,
@@ -150,7 +150,7 @@ const ordersListSlice = createSlice({
     },
     deleteOrder: (state, action) => {
       state.orders = state.orders.filter(
-        (order) => order.orderId !== action.payload
+        (order) => order._id !== action.payload
       );
       state.selectOrder = null;
       state.activeProduct = null;
@@ -178,7 +178,7 @@ const ordersListSlice = createSlice({
 
       //actualizar orderList
       state.orders = state.orders.map((order) => {
-        if (order.orderId === state.selectOrder.orderId) {
+        if (order._id === state.selectOrder._id) {
           return {
             ...order,
             orderItems: productUpdate,
@@ -189,6 +189,13 @@ const ordersListSlice = createSlice({
           return order;
         }
       });
+    },
+    clearOrdersList: (state, action) => {
+      state.selectOrder = null;
+      state.activeProduct = null;
+      state.orders = state.orders.filter(
+        (order) => order._id !== action.payload
+      );
     },
   },
 });
@@ -205,5 +212,6 @@ export const {
   deleteActiveProduct,
   deleteOrder,
   updateProductOrder,
+  clearOrdersList,
 } = ordersListSlice.actions;
 export default ordersListSlice.reducer;
