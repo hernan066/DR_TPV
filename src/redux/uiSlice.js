@@ -8,7 +8,7 @@ const uiSlice = createSlice({
     client: false,
     mode: "letter", // scanner, code, letter
     menu: false,
-    keypad_mode: "",
+    keypad_mode: "", //cash, transfer, debt
     cashOut: false,
   },
   reducers: {
@@ -45,6 +45,15 @@ const uiSlice = createSlice({
     keypadModePrice: (state) => {
       state.keypad_mode = "price";
     },
+    keypadModeCash: (state) => {
+      state.keypad_mode = "cash";
+    },
+    keypadModeTransfer: (state) => {
+      state.keypad_mode = "transfer";
+    },
+    keypadModeDebt: (state) => {
+      state.keypad_mode = "debt";
+    },
     openCashOut: (state) => {
       state.cashOut = true;
     },
@@ -68,5 +77,8 @@ export const {
   closePopupProducts,
   openCashOut,
   closeCashOut,
+  keypadModeCash,
+  keypadModeTransfer,
+  keypadModeDebt,
 } = uiSlice.actions;
 export default uiSlice.reducer;

@@ -18,21 +18,25 @@ export const Stocks = () => {
   const dispatch = useDispatch();
 
   const handleClick = (stock) => {
+    const product = {
+      uniqueId: uuidv4(), //este solo sirve para el carrito, no va a db
+      productId: ofert[0].product._id,
+      name: ofert[0].product.name,
+      unit: ofert[0].product.unit,
+      description: ofert[0].description,
+      img: ofert[0].product.img,
+
+      totalQuantity: 1,
+      totalPrice: ofert[0].retailPrice, //precio minorista, el mas caro
+      unitPrice: ofert[0].retailPrice, //precio minorista, el mas caro
+
+      unitCost: stock.unityCost,
+      stockId: stock._id,
+    };
     dispatch(
       addProduct({
-        uniqueId: uuidv4(), //este solo sirve para el carrito, no va a db
-        productId: ofert[0].product._id,
-        name: ofert[0].product.name,
-        unit: ofert[0].product.unit,
-        description: ofert[0].description,
-        img: ofert[0].product.img,
-
-        totalQuantity: 1,
-        totalPrice: ofert[0].retailPrice, //precio minorista, el mas caro
-        unitPrice: ofert[0].retailPrice, //precio minorista, el mas caro
-
-        unitCost: stock.unityCost,
-        stockId: stock._id,
+        product,
+        maxStock: stock.stock,
       })
     );
   };

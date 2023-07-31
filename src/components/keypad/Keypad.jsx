@@ -5,15 +5,19 @@ import { closeKeypad } from "../../redux/uiSlice";
 import { updateQuantityProduct } from "../../redux/orderSlice";
 import { useLocation } from "react-router-dom";
 import {
+  setCash,
+  setDebt,
+  setTransfer,
   updatePriceActiveProduct,
   updateQuantityActiveProduct,
 } from "../../redux/ordersSlice";
+import Swal from "sweetalert2";
 
 export const Keypad = () => {
   const { pathname } = useLocation();
   const { keypad_mode } = useSelector((store) => store.ui);
 
-  const { active } = useSelector((store) => store.order);
+  const { active, maxStock } = useSelector((store) => store.order);
   const { activeProduct } = useSelector((store) => store.ordersList);
 
   const [displayNumber, setDisplayNumber] = useState({
@@ -63,12 +67,30 @@ export const Keypad = () => {
       );
     }
     if (keypad_mode === "quantity") {
+      if (maxStock && displayNumber.value > maxStock) {
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: `La cantidad es mayor el stock existente (${maxStock})`,
+          showConfirmButton: true,
+          confirmButtonColor: "#d33",
+        });
+      }
       dispatch(
         updateQuantityProduct({
           id: active,
           value: displayNumber.value,
         })
       );
+    }
+    if (keypad_mode === "cash") {
+      dispatch(setCash(displayNumber.value));
+    }
+    if (keypad_mode === "transfer") {
+      dispatch(setTransfer(displayNumber.value));
+    }
+    if (keypad_mode === "debt") {
+      dispatch(setDebt(displayNumber.value));
     }
 
     dispatch(closeKeypad());

@@ -2,24 +2,33 @@
 import { useEffect, useState } from "react";
 import styles from "./cashOut.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { closeCashOut } from "../../redux/uiSlice";
+import {
+  closeCashOut,
+  keypadModeCash,
+  keypadModeDebt,
+  keypadModeTransfer,
+  openKeypad,
+} from "../../redux/uiSlice";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { formatPrice } from "../../utils/formatPrice";
 import { Receipt } from "../receipt/Receipt";
 import { usePutOrderMutation } from "../../api/apiOrder";
 import Swal from "sweetalert2";
-import { clearOrdersList } from "../../redux/ordersSlice";
+import {
+  clearOrdersList,
+  clearPayment,
+  setCash,
+  setDebt,
+  setTransfer,
+} from "../../redux/ordersSlice";
+import { CgKeyboard } from "react-icons/cg";
 
 export const CashOut = () => {
-  const { selectOrder } = useSelector((store) => store.ordersList);
+  const { selectOrder, payment } = useSelector((store) => store.ordersList);
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
   const [sendOrder, { isLoading, isError }] = usePutOrderMutation();
-
-  const [cash, setCash] = useState(0);
-  const [transfer, setTransfer] = useState(0);
-  const [debt, setDebt] = useState(0);
 
   const handleKeyPress = (event) => {
     if (event.key === "Escape") {
@@ -36,19 +45,54 @@ export const CashOut = () => {
   }, []);
 
   const handlerCash = () => {
-    const rest = selectOrder.subTotal - transfer - debt;
-    setCash(rest);
+    const rest = selectOrder.subTotal - payment.transfer - payment.debt;
+    dispatch(setCash(rest));
   };
   const handlerTransfer = () => {
-    const rest = selectOrder.subTotal - cash - debt;
-    setTransfer(rest);
+    const rest = selectOrder.subTotal - payment.cash - payment.debt;
+    dispatch(setTransfer(rest));
   };
   const handlerDebt = () => {
-    const rest = selectOrder.subTotal - transfer - cash;
-    setDebt(rest);
+    const rest = selectOrder.subTotal - payment.transfer - payment.cash;
+
+    dispatch(setDebt(rest));
   };
 
   const handleConfirmOrder = async () => {
+    if (+payment.cash + +payment.transfer + +payment.debt > selectOrder.total) {
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `La suma del total de pagos(${formatPrice(
+          +payment.cash + +payment.transfer + +payment.debt
+        )}) supera el total de la orden`,
+        showConfirmButton: true,
+        confirmButtonColor: "#d33",
+      });
+    }
+    if (+payment.cash + +payment.transfer + +payment.debt === 0) {
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `El monto total pagos no puede ser 0, si la orden no se abonara, complete el total en "DEUDA"`,
+        showConfirmButton: true,
+        confirmButtonColor: "#d33",
+      });
+    }
+    if (
+      +payment.cash + +payment.transfer + +payment.debt !==
+      +selectOrder.total
+    ) {
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: `La suma de monto total pagos (${formatPrice(
+          +payment.cash + +payment.transfer + +payment.debt
+        )}) no coincide con el total de la orden`,
+        showConfirmButton: true,
+        confirmButtonColor: "#d33",
+      });
+    }
     const order = {
       userCashier: user, // id del usuario cajero
       userSeller: selectOrder.userSeller,
@@ -75,12 +119,12 @@ export const CashOut = () => {
       commentary: "",
 
       payment: {
-        cash: +cash,
-        transfer: +transfer,
-        debt: +debt,
+        cash: +payment.cash,
+        transfer: +payment.transfer,
+        debt: +payment.debt,
       },
 
-      paid: +cash + +transfer === selectOrder.total,
+      paid: +payment.cash + +payment.transfer === selectOrder.total,
       discount: 0,
 
       deliveryDate: new Date(),
@@ -102,15 +146,20 @@ export const CashOut = () => {
       });
       //clear state
       dispatch(clearOrdersList(id));
+      dispatch(clearPayment());
     }
   };
+  console.log(payment);
   return (
     <section className={styles.container}>
       <div className={styles.window_container}>
         <div className={styles.nav}>
           <button
             className={styles.close}
-            onClick={() => dispatch(closeCashOut())}
+            onClick={() => {
+              dispatch(closeCashOut());
+              dispatch(clearPayment());
+            }}
           >
             <AiOutlineClose />
           </button>
@@ -173,35 +222,72 @@ export const CashOut = () => {
             </div>
             <div className={styles.data_entry}>
               <div className={styles.input_container}>
-                <input
-                  type="number"
-                  placeholder="Pago en efectivo"
-                  style={{ outlineColor: "green" }}
-                  autoFocus
-                  //defaultValue={0}
-                  value={cash}
-                  onChange={(e) => setCash(e.target.value)}
-                />
-                <button onClick={handlerCash}>$ Efectivo</button>
+                <div className={styles.input_wrapper}>
+                  <input
+                    type="number"
+                    placeholder="Pago en efectivo"
+                    style={{ outlineColor: "green" }}
+                    autoFocus
+                    //defaultValue={0}
+                    value={payment.cash}
+                    onChange={(e) => dispatch(setCash(e.target.value))}
+                  />
+                  <button
+                    className={styles.btn_keypad}
+                    onClick={() => {
+                      dispatch(openKeypad());
+                      dispatch(keypadModeCash());
+                    }}
+                  >
+                    <CgKeyboard />
+                  </button>
+                </div>
+                <button onClick={handlerCash} className={styles.btn_cash}>
+                  $ Efectivo
+                </button>
               </div>
               <div className={styles.input_container}>
-                <input
-                  type="number"
-                  placeholder="Pago en transferencia"
-                  style={{ outlineColor: "green" }}
-                  value={transfer}
-                  onChange={(e) => setTransfer(e.target.value)}
-                />
-                <button onClick={handlerTransfer}>$ Transferencia</button>
+                <div className={styles.input_wrapper}>
+                  <input
+                    type="number"
+                    placeholder="Pago en transferencia"
+                    style={{ outlineColor: "green" }}
+                    value={payment.transfer}
+                    onChange={(e) => dispatch(setTransfer(e.target.value))}
+                  />
+                  <button
+                    className={styles.btn_keypad}
+                    onClick={() => {
+                      dispatch(openKeypad());
+                      dispatch(keypadModeTransfer());
+                    }}
+                  >
+                    <CgKeyboard />
+                  </button>
+                </div>
+                <button onClick={handlerTransfer} className={styles.btn_cash}>
+                  $ Transferencia
+                </button>
               </div>
               <div className={styles.input_container}>
-                <input
-                  type="number"
-                  placeholder="Deuda de compra"
-                  style={{ outlineColor: "red" }}
-                  value={debt}
-                  onChange={(e) => setDebt(e.target.value)}
-                />
+                <div className={styles.input_wrapper}>
+                  <input
+                    type="number"
+                    placeholder="Deuda de compra"
+                    style={{ outlineColor: "red" }}
+                    value={payment.debt}
+                    onChange={(e) => dispatch(setDebt(e.target.value))}
+                  />
+                  <button
+                    className={styles.btn_keypad}
+                    onClick={() => {
+                      dispatch(openKeypad());
+                      dispatch(keypadModeDebt());
+                    }}
+                  >
+                    <CgKeyboard />
+                  </button>
+                </div>
                 <button id={styles.btn_debt} onClick={handlerDebt}>
                   $ Deuda
                 </button>

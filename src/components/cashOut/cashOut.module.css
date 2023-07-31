@@ -96,9 +96,10 @@
   font-size: 30px;
   font-weight: 800;
   text-align: center;
+  width: 100%;
 }
 
-.input_container button {
+.btn_cash {
   padding: 15px;
   font-size: 20px;
   text-transform: uppercase;
@@ -168,4 +169,21 @@
   padding: 15px 10px;
   background-color: white;
   border: 1px solid #ccc;
+}
+.input_wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #85605c;
+}
+.btn_keypad {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  color: #afafaf;
+  border: none;
+  background-color: transparent;
+}
+.btn_keypad svg {
+  height: 40px;
+  width: 40px;
 }

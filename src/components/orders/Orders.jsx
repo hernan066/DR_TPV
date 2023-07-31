@@ -8,7 +8,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import { addOrder, addOrders, addSelectOrder } from "../../redux/ordersSlice";
 import { useGetCashierOrdersQuery } from "../../api/apiOrder";
 import Loading from "../loading/Loading";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { SocketContext } from "../../context/SocketContext";
 
 const Order = ({ order }) => {

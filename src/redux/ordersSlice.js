@@ -6,8 +6,39 @@ const ordersListSlice = createSlice({
     orders: [],
     selectOrder: null,
     activeProduct: null,
+    payment: {
+      cash: 0,
+      transfer: 0,
+      debt: 0,
+    },
   },
   reducers: {
+    setCash: (state, action) => {
+      state.payment = {
+        ...state.payment,
+        cash: action.payload,
+      };
+    },
+    setTransfer: (state, action) => {
+      state.payment = {
+        ...state.payment,
+        transfer: action.payload,
+      };
+    },
+    setDebt: (state, action) => {
+      state.payment = {
+        ...state.payment,
+        debt: action.payload,
+      };
+    },
+    clearPayment: (state) => {
+      state.payment = {
+        cash: 0,
+        transfer: 0,
+        debt: 0,
+      };
+    },
+
     addOrder: (state, action) => {
       state.orders = [...state.orders, action.payload];
     },
@@ -16,6 +47,11 @@ const ordersListSlice = createSlice({
     },
     addSelectOrder: (state, action) => {
       state.selectOrder = action.payload;
+      state.payment = {
+        cash: 0,
+        transfer: 0,
+        debt: 0,
+      };
     },
     clearSelectOrder: (state) => {
       state.selectOrder = null;
@@ -213,5 +249,9 @@ export const {
   deleteOrder,
   updateProductOrder,
   clearOrdersList,
+  setCash,
+  setDebt,
+  setTransfer,
+  clearPayment,
 } = ordersListSlice.actions;
 export default ordersListSlice.reducer;

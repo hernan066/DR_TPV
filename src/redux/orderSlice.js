@@ -15,10 +15,12 @@ const orderSlice = createSlice({
     receiptId: null,
     validStockQuantity: true,
     active: null,
+    maxStock: null,
   },
   reducers: {
     addProduct: (state, action) => {
-      state.products = [...state.products, action.payload];
+      state.products = [...state.products, action.payload.product];
+      state.maxStock = action.payload.maxStock;
 
       const sub = state.products.reduce((acc, cur) => {
         return acc + cur.totalPrice;
@@ -93,6 +95,7 @@ const orderSlice = createSlice({
       state.receiptId = null;
       state.validStockQuantity = true;
       state.active = null;
+      state.maxStock = null;
     },
     setActiveProduct: (state, action) => {
       state.active = action.payload;
