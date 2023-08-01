@@ -93,3 +93,8 @@
   display: flex;
   gap: 40px;
 }
+@media (max-width: 1300px) {
+  .product_card {
+    width: 18.9%;
+  }
+}

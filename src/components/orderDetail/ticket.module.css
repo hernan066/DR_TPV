@@ -23,12 +23,8 @@
   font-size: 20px;
 }
 .ticket_btn_delete:disabled {
-  height: 60px;
-  width: 25%;
   background-color: rgb(162, 161, 161);
-  color: white;
-  border: none;
-  font-size: 20px;
+
   cursor: not-allowed;
 }
 .ticket_btn_quantity {
@@ -40,12 +36,8 @@
   font-size: 20px;
 }
 .ticket_btn_quantity:disabled {
-  height: 60px;
-  width: 25%;
   background-color: rgb(162, 161, 161);
-  color: white;
-  border: none;
-  font-size: 20px;
+
   cursor: not-allowed;
 }
 .ticket_code {
@@ -60,15 +52,7 @@
   color: white;
 }
 .ticket_code:disabled {
-  width: 25%;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ccc;
-  height: 60px;
-  display: flex;
   background-color: rgb(162, 161, 161);
-  font-size: 20px;
-  color: white;
   cursor: not-allowed;
 }
 .ticket_btn_products {
@@ -80,12 +64,7 @@
   font-size: 20px;
 }
 .ticket_btn_products:disabled {
-  height: 60px;
-  width: 25%;
   background-color: rgb(162, 161, 161);
-  color: white;
-  border: none;
-  font-size: 20px;
   cursor: not-allowed;
 }
 .footer {
@@ -145,7 +124,7 @@
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
 
-  font-size: 23px;
+  font-size: 20px;
   transition: all 0.3s;
 }
 .client:hover {
@@ -200,4 +179,29 @@
 }
 .client_empty_text {
   font-size: 15px;
+}
+
+@media (max-width: 1300px) {
+  .ticket_btn_products {
+    font-size: 14px;
+  }
+  .ticket_btn_quantity {
+    font-size: 14px;
+  }
+  .ticket_btn_delete {
+    font-size: 14px;
+  }
+  .ticket_code {
+    font-size: 14px;
+  }
+  .product_active {
+    font-size: 15px;
+  }
+
+  .product {
+    font-size: 15px;
+  }
+  .client {
+    font-size: 15px;
+  }
 }

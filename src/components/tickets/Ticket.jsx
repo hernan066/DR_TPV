@@ -18,6 +18,8 @@ import Swal from "sweetalert2";
 import { usePostOrderMutation } from "../../api/apiOfert";
 import { useContext, useEffect } from "react";
 import { SocketContext } from "../../context/SocketContext";
+import { AiOutlineDelete } from "react-icons/ai";
+import { GoNumber } from "react-icons/go";
 
 const Product = ({ product }) => {
   const { active } = useSelector((store) => store.order);
@@ -159,7 +161,7 @@ export const Ticket = () => {
           onClick={handleDelete}
           disabled={!active ? true : false}
         >
-          Borrar
+          <AiOutlineDelete /> Borrar
         </button>
         <button
           className={styles.ticket_btn_quantity}
@@ -169,9 +171,8 @@ export const Ticket = () => {
           }}
           disabled={!active ? true : false}
         >
-          Cantidad
+          <GoNumber /> Cantidad
         </button>
-        <div className={styles.ticket_code}>Cod. 2315641312465132</div>
       </div>
       <div className={styles.products}>
         {products.map((product) => (
@@ -233,7 +234,7 @@ export const Ticket = () => {
             className={styles.ticket_btn_cancel}
             onClick={() => dispatch(clearCart())}
           >
-            Cancelar orden
+            Cancelar
           </button>
         </div>
       </div>

@@ -43,9 +43,11 @@ const Product = ({ product }) => {
     >
       <div className={styles.flex}>
         <div>
-          <h4 style={{ display: "flex", gap: "5px" }}>
+          <h4 style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <span className={styles.quantity}>{product.totalQuantity}</span>
-            {product.description} / Unid.({formatPrice(product.unitPrice)})
+            <span>
+              {product.description} / Unid.({formatPrice(product.unitPrice)})
+            </span>
           </h4>
         </div>
         <h4>{formatPrice(product.totalPrice)}</h4>
@@ -155,7 +157,7 @@ export const OrderDetail = () => {
         <div className={styles.client} onClick={() => dispatch(openClient())}>
           {selectOrder && (
             <div className={styles.flex} style={{ padding: "10px" }}>
-              <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
+              <h4>Cliente:</h4>
               <h4>
                 {selectOrder.shippingAddress?.name}{" "}
                 {selectOrder.shippingAddress?.lastName}
@@ -198,7 +200,7 @@ export const OrderDetail = () => {
             disabled={!selectOrder || isLoading}
             style={{ width: "50%", padding: "20px" }}
           >
-            <span className="button__text">Borrar orden</span>
+            <span className="button__text">Borrar</span>
           </button>
         </div>
       </div>

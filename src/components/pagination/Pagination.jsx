@@ -1,10 +1,5 @@
 import styles from "./pagination.module.css";
-import {
-  BsChevronDoubleLeft,
-  BsChevronDoubleRight,
-  BsChevronLeft,
-  BsChevronRight,
-} from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { AiOutlineHome } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +16,14 @@ export const Pagination = () => {
           Vendedor {user?.name} {user?.lastName}
         </div>
         <div className={styles.flex}>
-          <BsChevronDoubleLeft />
-          <BsChevronLeft />
+          {/*   <BsChevronDoubleLeft />
+           */}
+          <BsChevronLeft
+            onClick={() => {
+              navigate(-1);
+              dispatch(clearSearchOfert());
+            }}
+          />
 
           <AiOutlineHome
             onClick={() => {
@@ -30,9 +31,15 @@ export const Pagination = () => {
               dispatch(clearSearchOfert());
             }}
           />
+          <BsChevronRight
+            onClick={() => {
+              navigate(+1);
+              dispatch(clearSearchOfert());
+            }}
+          />
 
-          <BsChevronRight />
-          <BsChevronDoubleRight />
+          {/*     <BsChevronRight />
+          <BsChevronDoubleRight /> */}
         </div>
       </div>
     </div>

@@ -16,35 +16,31 @@
 }
 .ticket_btn_delete {
   height: 60px;
-  width: 100px;
+  width: 50%;
   background-color: red;
   color: white;
   border: none;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 .ticket_btn_delete:disabled {
-  height: 60px;
-  width: 100px;
   background-color: rgb(162, 161, 161);
-  color: white;
-  border: none;
-  font-size: 20px;
+  cursor: not-allowed;
 }
 .ticket_btn_quantity {
   height: 60px;
-  width: 100px;
+  width: 50%;
   background-color: rgb(110, 110, 110);
   color: white;
   border: none;
   font-size: 20px;
 }
 .ticket_btn_quantity:disabled {
-  height: 60px;
-  width: 100px;
   background-color: rgb(162, 161, 161);
-  color: white;
-  border: none;
-  font-size: 20px;
+  cursor: not-allowed;
 }
 .ticket_code {
   flex: 1;
@@ -88,7 +84,9 @@
   background-color: rgb(110, 110, 110);
   color: white;
   border: none;
-  font-size: 20px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 .flex {
   display: flex;

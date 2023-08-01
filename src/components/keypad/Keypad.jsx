@@ -12,6 +12,7 @@ import {
   updateQuantityActiveProduct,
 } from "../../redux/ordersSlice";
 import Swal from "sweetalert2";
+import { GrClose } from "react-icons/gr";
 
 export const Keypad = () => {
   const { pathname } = useLocation();
@@ -114,6 +115,12 @@ export const Keypad = () => {
   return (
     <section className={styles.container}>
       <div className={styles.keypad}>
+        <button
+          className={styles.close}
+          onClick={() => dispatch(closeKeypad())}
+        >
+          <GrClose />
+        </button>
         <input
           type="number"
           className={styles.keypad_input}

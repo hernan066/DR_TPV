@@ -41,6 +41,7 @@
   overflow-y: scroll;
   height: 85vh;
   align-items: flex-start;
+  align-content: flex-start;
 }
 .product_card {
   width: 19.3%;
@@ -108,4 +109,26 @@
 .flex {
   display: flex;
   gap: 40px;
+}
+
+@media (max-width: 1300px) {
+  .product_card {
+    width: 18.9%;
+    background-color: white;
+    position: relative;
+    box-shadow: 2px 2px 5px #cccccc83, -2px -2px 5px #cccccc83;
+    transition: all 0.4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-height: 180px;
+  }
+  .product_card_name h3 {
+    color: white;
+    font-size: 15px;
+  }
+  .main_products {
+    height: 80vh;
+  }
 }

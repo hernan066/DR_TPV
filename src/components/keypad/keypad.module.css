@@ -11,6 +11,7 @@
 }
 .keypad {
   background-color: #666;
+  position: relative;
 }
 .flex {
   display: flex;
@@ -43,4 +44,12 @@
 #btn_keypad {
   position: absolute;
   right: 0;
+}
+.close {
+  position: absolute;
+  right: -35px;
+}
+.close svg {
+  height: 30px;
+  width: 30px;
 }
