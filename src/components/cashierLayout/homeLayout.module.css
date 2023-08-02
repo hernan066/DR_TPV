@@ -10,5 +10,53 @@
 .ticket_container {
   width: 30%;
   position: relative;
+  border: 1px solid #9b0404;
   border: 1px solid #ddd;
+}
+
+.btn-load {
+  background-color: var(--color-red);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 4px;
+
+  padding: 15px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  width: 100%;
+  position: relative;
+}
+.btn-load:hover {
+  box-shadow: 2px 2px 5px #887c7c;
+  transform: scale(1.003);
+}
+.grey {
+  background-color: #666;
+}
+.btn-load:disabled {
+  background-color: #292c2c;
+  cursor: not-allowed;
+}
+
+.button--loading .button__text {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.button--loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
 }

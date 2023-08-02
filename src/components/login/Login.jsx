@@ -24,6 +24,7 @@ export const Login = () => {
         password: values.password,
       }).unwrap();
       if (userData) {
+        console.log(userData);
         dispatch(setCredentials({ ...userData }));
 
         navigate("/");
