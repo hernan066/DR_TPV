@@ -5,6 +5,7 @@ const ordersListSlice = createSlice({
   initialState: {
     orders: [],
     selectOrder: null,
+
     activeProduct: null,
     payment: {
       cash: 0,
@@ -43,7 +44,17 @@ const ordersListSlice = createSlice({
       state.orders = [...state.orders, action.payload];
     },
     addOrders: (state, action) => {
-      state.orders = action.payload;
+      state.orders = action.payload.map((order) => ({
+        ...order,
+        originalStock: order.orderItems.map((product) => ({
+          uniqueId: product.uniqueId,
+          name: product.name,
+          productId: product.productId,
+          stockId: product.stockId,
+          totalQuantity: product.totalQuantity,
+          newQuantity: product.totalQuantity,
+        })),
+      }));
     },
     addSelectOrder: (state, action) => {
       state.selectOrder = action.payload;
@@ -55,6 +66,7 @@ const ordersListSlice = createSlice({
     },
     clearSelectOrder: (state) => {
       state.selectOrder = null;
+      state.selectOrderOriginalItems = null;
     },
     setActiveProduct: (state, action) => {
       state.activeProduct = action.payload;
@@ -68,11 +80,23 @@ const ordersListSlice = createSlice({
         if (product.uniqueId === action.payload.id) {
           return {
             ...product,
+
             totalPrice: +action.payload.value * product.unitPrice,
             totalQuantity: +action.payload.value,
           };
         } else {
           return product;
+        }
+      });
+
+      const stockUpdate = state.selectOrder.originalStock.map((stock) => {
+        if (stock.uniqueId === action.payload.id) {
+          return {
+            ...stock,
+            newQuantity: +action.payload.value,
+          };
+        } else {
+          return stock;
         }
       });
 
@@ -88,6 +112,7 @@ const ordersListSlice = createSlice({
       state.selectOrder = {
         ...state.selectOrder,
         orderItems: productUpdate,
+        originalStock: stockUpdate,
         subTotal,
         total,
       };
@@ -97,6 +122,7 @@ const ordersListSlice = createSlice({
           return {
             ...order,
             orderItems: productUpdate,
+            originalStock: stockUpdate,
             subTotal,
             total,
           };

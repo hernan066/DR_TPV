@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./cashOut.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,13 +21,18 @@ import {
   setTransfer,
 } from "../../redux/ordersSlice";
 import { CgKeyboard } from "react-icons/cg";
+import { usePutProductStockMutation } from "../../api/apiProducts";
+import { formatQuantity } from "../../utils/formatQuantity";
 
 export const CashOut = () => {
   const { selectOrder, payment } = useSelector((store) => store.ordersList);
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
-  const [sendOrder, { isLoading, isError }] = usePutOrderMutation();
+  const [sendOrder, { isLoading: l1, isError: e1 }] = usePutOrderMutation();
+
+  const [editProductStock, { isLoading: l2, isError: e2 }] =
+    usePutProductStockMutation();
 
   const handleKeyPress = (event) => {
     if (event.key === "Escape") {
@@ -131,9 +135,30 @@ export const CashOut = () => {
 
       state: true, // cambiar en producción
     };
+
+    // ---------Update Stock-----------
+    const updateProductsStocks = selectOrder.originalStock.map((product) => ({
+      productId: product.productId,
+      // negativo devolución de stock
+      // positivo agregar mas stock
+      totalQuantity: product.newQuantity - product.totalQuantity,
+      stockId: product.stockId,
+    }));
+    updateProductsStocks.map(async (product) => {
+      if (product.totalQuantity !== 0) {
+        const updateData = {
+          stockId: product.stockId,
+          totalQuantity: formatQuantity(product.totalQuantity),
+        };
+        const id = product.productId;
+        await editProductStock({ id, ...updateData }).unwrap();
+      }
+    });
+    // ---------Update Stock-----------
     const id = selectOrder._id;
-    const res = await sendOrder({ id, ...order });
-    if (res.data.ok) {
+    await sendOrder({ id, ...order });
+
+    if (!e1 && !e2) {
       //close
       dispatch(closeCashOut());
       //confirm
@@ -149,7 +174,19 @@ export const CashOut = () => {
       dispatch(clearPayment());
     }
   };
-  console.log(payment);
+
+  useEffect(() => {
+    if (e1 || e2)
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error, orden no enviada",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+  }, [e1, e2]);
+
   return (
     <section className={styles.container}>
       <div className={styles.window_container}>
@@ -295,8 +332,25 @@ export const CashOut = () => {
             </div>
             <div className={styles.send_order}>
               <Receipt />
-              <button onClick={handleConfirmOrder}>
-                <AiOutlineCheck /> Confirmar compra
+
+              <button
+                className={`btn-load ${l1 || l2 ? "button--loading" : ""}`}
+                type="submit"
+                onClick={handleConfirmOrder}
+                disabled={l1 || l2}
+                style={{ width: "50%" }}
+              >
+                <span
+                  className="button__text"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <AiOutlineCheck />
+                  Confirmar compra
+                </span>
               </button>
             </div>
           </div>

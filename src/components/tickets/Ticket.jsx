@@ -20,10 +20,13 @@ import { useContext, useEffect } from "react";
 import { SocketContext } from "../../context/SocketContext";
 import { AiOutlineDelete } from "react-icons/ai";
 import { GoNumber } from "react-icons/go";
+import { usePutProductStockMutation } from "../../api/apiProducts";
+import { useNavigate } from "react-router-dom";
 
 const Product = ({ product }) => {
   const { active } = useSelector((store) => store.order);
   const dispatch = useDispatch();
+
   const handleClick = () => {
     if (active == product.uniqueId) {
       dispatch(clearActiveProduct());
@@ -55,13 +58,16 @@ const Product = ({ product }) => {
 
 export const Ticket = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { socket } = useContext(SocketContext);
   const { products, client, active, subTotal } = useSelector(
     (store) => store.order
   );
   const { user } = useSelector((store) => store.auth);
 
-  const [sendOrder, { isLoading, isError }] = usePostOrderMutation();
+  const [sendOrder, { isLoading: l1, isError: e1 }] = usePostOrderMutation();
+  const [editProductStock, { isLoading: l2, isError: e2 }] =
+    usePutProductStockMutation();
 
   const handleDelete = () => {
     dispatch(deleteProduct(active));
@@ -125,10 +131,26 @@ export const Ticket = () => {
       date: new Date(),
     };
 
-    const res = await sendOrder(order);
+    const productsToEdit = products.map((product) => ({
+      productId: product.productId,
+      stockId: product.stockId,
+      totalQuantity: product.totalQuantity,
+    }));
 
-    if (res.data.ok) {
-      socket.emit("order", res.data.data.order);
+    const res1 = await sendOrder(order);
+
+    productsToEdit.map(async (product) => {
+      const updateData = {
+        /*  stockId: product.stockId, */
+        totalQuantity: product.totalQuantity,
+      };
+      const id = product.productId;
+      const res2 = await editProductStock({ id, ...updateData }).unwrap();
+      console.log(res2);
+    });
+
+    if (!e1 || !e2) {
+      socket.emit("order", res1.data.data.order);
 
       Swal.fire({
         position: "center",
@@ -138,11 +160,12 @@ export const Ticket = () => {
         timer: 2500,
       });
       dispatch(clearCart());
+      navigate("/");
     }
   };
 
   useEffect(() => {
-    if (isError)
+    if (e1 || e2)
       Swal.fire({
         position: "center",
         icon: "error",
@@ -151,7 +174,7 @@ export const Ticket = () => {
         showConfirmButton: false,
         timer: 2500,
       });
-  }, [isError]);
+  }, [e1, e2]);
 
   return (
     <section className={styles.container}>
@@ -222,10 +245,10 @@ export const Ticket = () => {
             Enviar a caja
           </button> */}
           <button
-            className={`btn-load ${isLoading ? "button--loading" : ""}`}
+            className={`btn-load ${l1 || l2 ? "button--loading" : ""}`}
             type="submit"
             onClick={handleSendOrder}
-            disabled={!products || !client || isLoading}
+            disabled={!products || !client || l1 || l2}
             style={{ width: "50%", padding: "20px" }}
           >
             <span className="button__text">Enviar</span>

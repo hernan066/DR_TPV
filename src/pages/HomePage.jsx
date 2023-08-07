@@ -34,7 +34,30 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (ofertsData) {
-      dispatch(getAllOferts(ofertsData.data.oferts));
+      const productsWithStockField = ofertsData.data.oferts
+        .filter((ofert) => ofert.product.stock)
+        .map((ofert) => {
+          const stock = ofert.product.stock.reduce(
+            (acc, curr) => curr.stock + acc,
+            0
+          );
+          if (stock > 0) {
+            return {
+              ...ofert,
+              existStock: true,
+            };
+          }
+          return {
+            ...ofert,
+            existStock: false,
+          };
+        });
+
+      const productWithStock = productsWithStockField.filter(
+        (product) => product.existStock
+      );
+
+      dispatch(getAllOferts(productWithStock));
     }
   }, [ofertsData, dispatch]);
 

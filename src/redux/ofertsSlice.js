@@ -11,6 +11,7 @@ const ofertsSlice = createSlice({
     getAllOferts: (state, action) => {
       state.allOferts = action.payload;
     },
+
     setSearchOfert: (state, action) => {
       state.searchOfert = action.payload;
     },

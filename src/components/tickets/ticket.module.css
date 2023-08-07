@@ -124,10 +124,20 @@
   background-color: rgba(77, 153, 246, 0.892);
   color: white;
   padding: 10px;
+  transition: 0.2s;
 }
 .product {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  transition: 0.2s;
+}
+.product_active:hover {
+  cursor: pointer;
+  background-color: rgba(62, 127, 207, 0.892);
+}
+.product:hover {
+  cursor: pointer;
+  background-color: rgba(228, 228, 228, 0.197);
 }
 .quantity {
   background-color: #666;
