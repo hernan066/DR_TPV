@@ -137,13 +137,24 @@ export const CashOut = () => {
     };
 
     // ---------Update Stock-----------
-    const updateProductsStocks = selectOrder.originalStock.map((product) => ({
-      productId: product.productId,
-      // negativo devolución de stock
-      // positivo agregar mas stock
-      totalQuantity: product.newQuantity - product.totalQuantity,
-      stockId: product.stockId,
-    }));
+    const updateProductsStocks = selectOrder.originalStock.map((product) => {
+      if (product.new) {
+        return {
+          productId: product.productId,
+          // nuevo producto
+          totalQuantity: product.newQuantity,
+          stockId: product.stockId,
+        };
+      } else {
+        return {
+          productId: product.productId,
+          // negativo devolución de stock
+          // positivo agregar mas stock
+          totalQuantity: product.newQuantity - product.totalQuantity,
+          stockId: product.stockId,
+        };
+      }
+    });
     updateProductsStocks.map(async (product) => {
       if (product.totalQuantity !== 0) {
         const updateData = {
@@ -165,7 +176,7 @@ export const CashOut = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Orden creada con éxito",
+        title: "Orden cobrada con éxito",
         showConfirmButton: false,
         timer: 2500,
       });

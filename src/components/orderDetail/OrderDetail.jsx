@@ -19,6 +19,8 @@ import {
 import Swal from "sweetalert2";
 import { useDeleteOrderMutation } from "../../api/apiOrder";
 import { useEffect } from "react";
+import { formatQuantity } from "../../utils/formatQuantity";
+import { usePutProductStockMutation } from "../../api/apiProducts";
 
 const Product = ({ product }) => {
   const { activeProduct } = useSelector((store) => store.ordersList);
@@ -62,7 +64,10 @@ export const OrderDetail = () => {
     (store) => store.ordersList
   );
 
-  const [deleteOrderApi, { isLoading, isError }] = useDeleteOrderMutation();
+  const [deleteOrderApi, { isLoading: l1, isError: e1 }] =
+    useDeleteOrderMutation();
+  const [editProductStock, { isLoading: l2, isError: e2 }] =
+    usePutProductStockMutation();
 
   const handleDelete = () => {
     Swal.fire({
@@ -74,11 +79,33 @@ export const OrderDetail = () => {
       confirmButtonText: "Borrar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        dispatch(deleteActiveProduct(activeProduct));
+        const productToEdit = selectOrder.originalStock.filter(
+          (product) => product.uniqueId === activeProduct
+        );
+
+        const updateData = {
+          stockId: productToEdit[0].stockId,
+          totalQuantity: -productToEdit[0].totalQuantity, // negativo porque es una devolución de stock original
+        };
+
+        const id = productToEdit[0].productId;
+
+        const res = await editProductStock({ id, ...updateData }).unwrap();
+        console.log(res);
+
+        if (!e2) {
+          dispatch(deleteActiveProduct(activeProduct));
+        }
       }
     });
   };
   const handleDeleteOrder = () => {
+    const updateProducts = selectOrder.orderItems.map((product) => ({
+      productId: product.productId,
+      totalQuantity: -product.totalQuantity, // negativo porque es una devolución de stock
+      stockId: product.stockId,
+    }));
+
     Swal.fire({
       title: "Deseas borrar esta Orden?",
       text: "Este cambio no se puede revertir",
@@ -88,8 +115,17 @@ export const OrderDetail = () => {
       confirmButtonText: "Borrar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await deleteOrderApi(selectOrder._id);
-        if (res.data.ok) {
+        updateProducts.map(async (product) => {
+          const updateData = {
+            stockId: product.stockId,
+            totalQuantity: formatQuantity(product.totalQuantity),
+          };
+          const id = product.productId;
+          await editProductStock({ id, ...updateData }).unwrap();
+        });
+
+        await deleteOrderApi(selectOrder._id);
+        if (!e1 && !e2) {
           dispatch(deleteOrder(selectOrder.orderId));
         }
       }
@@ -97,7 +133,7 @@ export const OrderDetail = () => {
   };
 
   useEffect(() => {
-    if (isError)
+    if (e1 || e2)
       Swal.fire({
         position: "center",
         icon: "error",
@@ -106,7 +142,7 @@ export const OrderDetail = () => {
         showConfirmButton: false,
         timer: 2500,
       });
-  }, [isError]);
+  }, [e1, e2]);
 
   return (
     <section className={styles.container}>
@@ -185,19 +221,19 @@ export const OrderDetail = () => {
         </div>
         <div className={styles.footer}>
           <button
-            className={`btn-load ${isLoading ? "button--loading" : ""}`}
+            className={`btn-load ${l1 || l2 ? "button--loading" : ""}`}
             type="submit"
             onClick={() => dispatch(openCashOut())}
-            disabled={!selectOrder || isLoading}
+            disabled={!selectOrder || l1 || l2}
             style={{ width: "50%", padding: "20px" }}
           >
             <span className="button__text">$ Cobrar</span>
           </button>
           <button
-            className={`btn-load grey ${isLoading ? "button--loading" : ""}`}
+            className={`btn-load grey ${l1 || l2 ? "button--loading" : ""}`}
             type="submit"
             onClick={handleDeleteOrder}
-            disabled={!selectOrder || isLoading}
+            disabled={!selectOrder || l1 || l2}
             style={{ width: "50%", padding: "20px" }}
           >
             <span className="button__text">Borrar</span>

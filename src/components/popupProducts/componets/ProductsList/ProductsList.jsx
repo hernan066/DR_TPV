@@ -26,11 +26,12 @@ const ProductStock = ({ selectOfert, setSelectOfert }) => {
         img: selectOfert.product.img,
 
         totalQuantity: 1,
-        totalPrice: selectOfert.retailPrice, //precio minorista, el mas caro
-        unitPrice: selectOfert.retailPrice, //precio minorista, el mas caro
+        totalPrice: selectOfert.basePrice,
+        unitPrice: selectOfert.basePrice,
 
         unitCost: stock.unityCost,
         stockId: stock._id,
+        new: true, // no va a db
       })
     );
     Swal.fire({
@@ -62,7 +63,7 @@ const ProductStock = ({ selectOfert, setSelectOfert }) => {
 
             <h3 className={styles.col2}>{formatQuantity(stock.stock)} Unid.</h3>
             <h3 className={styles.col3}>
-              {formatPrice(selectOfert.retailPrice)}
+              {formatPrice(selectOfert.basePrice)}
             </h3>
           </div>
         );
@@ -114,7 +115,7 @@ export const ProductsList = ({ oferts, value }) => {
             </div>
 
             <h3 className={styles.col2}>{ofert.category.name}</h3>
-            <h3 className={styles.col3}>{formatPrice(ofert.retailPrice)}</h3>
+            <h3 className={styles.col3}>{formatPrice(ofert.basePrice)}</h3>
           </div>
         );
       })}

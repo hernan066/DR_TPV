@@ -27,8 +27,8 @@ export const Stocks = () => {
       img: ofert[0].product.img,
 
       totalQuantity: 1,
-      totalPrice: ofert[0].retailPrice, //precio minorista, el mas caro
-      unitPrice: ofert[0].retailPrice, //precio minorista, el mas caro
+      totalPrice: ofert[0].basePrice, //precio minorista, el mas caro
+      unitPrice: ofert[0].basePrice, //precio minorista, el mas caro
 
       unitCost: stock.unityCost,
       stockId: stock._id,

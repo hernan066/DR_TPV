@@ -192,6 +192,7 @@ const ordersListSlice = createSlice({
         orderItems: productUpdate,
         subTotal,
         total,
+        numberOfItems: productUpdate.length,
       };
 
       //actualizar orderList
@@ -202,6 +203,7 @@ const ordersListSlice = createSlice({
             orderItems: productUpdate,
             subTotal,
             total,
+            numberOfItems: productUpdate.length,
           };
         } else {
           return order;
@@ -220,7 +222,19 @@ const ordersListSlice = createSlice({
     updateProductOrder: (state, action) => {
       const newProduct = action.payload;
       const productUpdate = state.selectOrder.orderItems;
+      const stockUpdate = state.selectOrder.originalStock;
+
       productUpdate.push(newProduct);
+      stockUpdate.push({
+        uniqueId: newProduct.uniqueId,
+        name: newProduct.name,
+        productId: newProduct.productId,
+        stockId: newProduct.stockId,
+        totalQuantity: newProduct.totalQuantity,
+        newQuantity: newProduct.totalQuantity,
+        new: newProduct?.new || false,
+      });
+
       const subTotal = productUpdate.reduce((acc, cur) => {
         return acc + cur.totalPrice;
       }, 0);
@@ -236,6 +250,7 @@ const ordersListSlice = createSlice({
         orderItems: productUpdate,
         subTotal,
         total,
+        originalStock: stockUpdate,
       };
 
       //actualizar orderList
@@ -244,6 +259,7 @@ const ordersListSlice = createSlice({
           return {
             ...order,
             orderItems: productUpdate,
+            originalStock: stockUpdate,
             subTotal,
             total,
           };
