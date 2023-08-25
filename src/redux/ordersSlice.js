@@ -41,7 +41,18 @@ const ordersListSlice = createSlice({
     },
 
     addOrder: (state, action) => {
-      state.orders = [...state.orders, action.payload];
+      const newOrder = {
+        ...action.payload,
+        originalStock: action.payload.orderItems.map((product) => ({
+          uniqueId: product.uniqueId,
+          name: product.name,
+          productId: product.productId,
+          stockId: product.stockId,
+          totalQuantity: product.totalQuantity,
+          newQuantity: product.totalQuantity,
+        })),
+      };
+      state.orders = [...state.orders, newOrder];
     },
     addOrders: (state, action) => {
       state.orders = action.payload.map((order) => ({
@@ -223,6 +234,8 @@ const ordersListSlice = createSlice({
       const newProduct = action.payload;
       const productUpdate = state.selectOrder.orderItems;
       const stockUpdate = state.selectOrder.originalStock;
+
+      console.log(action.payload);
 
       productUpdate.push(newProduct);
       stockUpdate.push({

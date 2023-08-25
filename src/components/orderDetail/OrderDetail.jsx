@@ -5,8 +5,8 @@ import {
   keypadModePrice,
   keypadModeQuantity,
   openCashOut,
-  openClient,
   openKeypad,
+  openLocalOrder,
   openPopupProducts,
 } from "../../redux/uiSlice";
 import { formatPrice } from "../../utils/formatPrice";
@@ -144,6 +144,10 @@ export const OrderDetail = () => {
       });
   }, [e1, e2]);
 
+  const handleOpenClient = () => {
+    dispatch(openLocalOrder());
+  };
+
   return (
     <section className={styles.container}>
       <div className={styles.navbar}>
@@ -190,7 +194,7 @@ export const OrderDetail = () => {
         </div>
       )}
       <div className={styles.bottom}>
-        <div className={styles.client} onClick={() => dispatch(openClient())}>
+        <div className={styles.client} onClick={handleOpenClient}>
           {selectOrder && (
             <div className={styles.flex} style={{ padding: "10px" }}>
               <h4>Cliente:</h4>

@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./ticket.module.css";
 import {
   keypadModeQuantity,
-  openClient,
+  openDeliveryOrder,
   openKeypad,
+  openLocalOrder,
+  openSelector,
 } from "../../redux/uiSlice";
 import {
   clearActiveProduct,
@@ -22,6 +24,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { GoNumber } from "react-icons/go";
 import { usePutProductStockMutation } from "../../api/apiProducts";
 import { useNavigate } from "react-router-dom";
+import { BsTruck } from "react-icons/bs";
 
 const Product = ({ product }) => {
   const { active } = useSelector((store) => store.order);
@@ -60,9 +63,10 @@ export const Ticket = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { socket } = useContext(SocketContext);
-  const { products, client, active, subTotal } = useSelector(
-    (store) => store.order
-  );
+
+  const { products, client, active, subTotal, deliveryTruck, shippingAddress } =
+    useSelector((store) => store.order);
+
   const { user } = useSelector((store) => store.auth);
 
   const [sendOrder, { isLoading: l1, isError: e1 }] = usePostOrderMutation();
@@ -75,40 +79,40 @@ export const Ticket = () => {
 
   const handleSendOrder = async () => {
     const order = {
-      userCashier: null, // id del usuario cajero
+      userCashier: deliveryTruck ? user : null, // id del usuario cajero
       userSeller: user, // id del usuario vendedor
       client: client._id,
       userId: client.user._id,
-      cashierMode: true, // para ser vista por el cajero al buscar en db
+      cashierMode: !deliveryTruck ? true : false, // para ser vista por el cajero al buscar en db
       receiptId: Date.now(),
 
       orderItems: products,
 
       shippingAddress: {
-        addressId: null,
+        addressId: shippingAddress?.addressId || null,
         name: client.user.name,
         lastName: client.user.lastName,
         phone: client.user.phone,
-        address: null,
-        flor: null,
-        department: null,
-        city: null,
-        province: null,
-        zip: null,
-        lat: null,
-        lng: null,
+        address: shippingAddress?.address || null,
+        flor: shippingAddress?.flor || null,
+        department: shippingAddress?.department || null,
+        city: shippingAddress?.city || null,
+        province: shippingAddress?.province || null,
+        zip: shippingAddress?.zip || null,
+        lat: shippingAddress?.lat || null,
+        lng: shippingAddress?.lng || null,
       },
 
-      deliveryTruck: null,
+      deliveryTruck: deliveryTruck || null,
       employee: null, //este esta de mas, borrar
-      deliveryZone: null,
+      deliveryZone: client?.deliveryZone?._id || null,
       numberOfItems: products.length,
       tax: 0,
       subTotal: subTotal,
       total: subTotal,
 
       status: "Pendiente", // Entregado
-      active: false, //solo si es de reparto
+      active: deliveryTruck ? true : false, //solo si es de reparto
 
       commentary: "",
 
@@ -123,7 +127,7 @@ export const Ticket = () => {
 
       deliveryDate: null,
 
-      state: false, // cambiar en producción
+      state: true, // cambiar en producción
 
       //datos que no va a DB
       orderId: uuidv4(),
@@ -137,6 +141,7 @@ export const Ticket = () => {
       totalQuantity: product.totalQuantity,
     }));
 
+    console.log(order);
     const res1 = await sendOrder(order);
 
     productsToEdit.map(async (product) => {
@@ -152,13 +157,24 @@ export const Ticket = () => {
     if (!e1 || !e2) {
       socket.emit("order", res1.data.data.order);
 
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Orden enviada a caja",
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      if (deliveryTruck) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Orden enviada al repartidor",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Orden enviada a caja",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      }
+
       dispatch(clearCart());
       navigate("/");
     }
@@ -203,14 +219,40 @@ export const Ticket = () => {
         ))}
       </div>
       <div className={styles.bottom}>
-        <div className={styles.client} onClick={() => dispatch(openClient())}>
-          {client ? (
-            <div className={styles.flex} style={{ padding: "10px" }}>
+        {deliveryTruck && (
+          <div className={styles.deliveryOrder}>
+            <h4>
+              <BsTruck /> Orden de reparto
+            </h4>
+          </div>
+        )}
+
+        <div className={styles.client}>
+          {client && deliveryTruck && (
+            <div
+              className={styles.flex}
+              style={{ padding: "10px" }}
+              onClick={() => dispatch(openDeliveryOrder())}
+            >
               <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
               <h4>{`${client.user.name} ${client.user.lastName}`}</h4>
             </div>
-          ) : (
-            <div className={styles.client_empty}>
+          )}
+          {client && !deliveryTruck && (
+            <div
+              className={styles.flex}
+              style={{ padding: "10px" }}
+              onClick={() => dispatch(openLocalOrder())}
+            >
+              <h4 style={{ fontSize: "20px" }}>Cliente:</h4>
+              <h4>{`${client.user.name} ${client.user.lastName}`}</h4>
+            </div>
+          )}
+          {!client && (
+            <div
+              className={styles.client_empty}
+              onClick={() => dispatch(openSelector())}
+            >
               <p>⚠ Se debe cargar un cliente </p>
               <p className={styles.client_empty_text}>
                 (click aquí para cargar)

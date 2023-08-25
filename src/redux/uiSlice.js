@@ -5,11 +5,13 @@ const uiSlice = createSlice({
   initialState: {
     keypad: false,
     popupProducts: false,
-    client: false,
     mode: "letter", // scanner, code, letter
     menu: false,
     keypad_mode: "", //cash, transfer, debt
     cashOut: false,
+    selector: false,
+    selectLocalOrder: false,
+    selectDeliveryOrder: false,
   },
   reducers: {
     openKeypad: (state) => {
@@ -24,11 +26,25 @@ const uiSlice = createSlice({
     closeMenu: (state) => {
       state.menu = false;
     },
-    openClient: (state) => {
-      state.client = true;
+    openSelector: (state) => {
+      state.selector = true;
     },
-    closeClient: (state) => {
-      state.client = false;
+    closeSelector: (state) => {
+      state.selector = false;
+    },
+    openLocalOrder: (state) => {
+      state.selectLocalOrder = true;
+      state.selector = false;
+    },
+    closeLocalOrder: (state) => {
+      state.selectLocalOrder = false;
+    },
+    openDeliveryOrder: (state) => {
+      state.selectDeliveryOrder = true;
+      state.selector = false;
+    },
+    closeDeliveryOrder: (state) => {
+      state.selectDeliveryOrder = false;
     },
     openPopupProducts: (state) => {
       state.popupProducts = true;
@@ -66,8 +82,7 @@ const uiSlice = createSlice({
 export const {
   openKeypad,
   closeKeypad,
-  openClient,
-  closeClient,
+
   changeMode,
   openMenu,
   closeMenu,
@@ -80,5 +95,11 @@ export const {
   keypadModeCash,
   keypadModeTransfer,
   keypadModeDebt,
+  openSelector,
+  closeSelector,
+  openLocalOrder,
+  closeLocalOrder,
+  openDeliveryOrder,
+  closeDeliveryOrder,
 } = uiSlice.actions;
 export default uiSlice.reducer;

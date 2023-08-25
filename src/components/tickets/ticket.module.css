@@ -161,3 +161,15 @@
 .client_empty_text {
   font-size: 15px;
 }
+.deliveryOrder {
+  padding: 10px;
+
+  border-top: 1px solid #666;
+  background-color: #d5dce6;
+}
+.deliveryOrder h4 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+}

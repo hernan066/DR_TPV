@@ -9,12 +9,20 @@
   align-items: center;
   justify-content: center;
 }
+
 .client_box {
-  height: 630px;
+  min-height: 630px;
   width: 800px;
   background-color: #f1f1f1;
   padding: 20px;
   position: relative;
+}
+.client_box_selector {
+  width: 800px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  position: relative;
+  padding: 50px 20px;
 }
 .bnt_close {
   position: absolute;
@@ -91,6 +99,17 @@
   border: 1px solid #ccc;
   position: relative;
 }
+.field_input {
+  margin-top: 30px;
+  position: relative;
+}
+.field_input span {
+  position: absolute;
+  top: -18px;
+  left: 10px;
+  font-size: 14px;
+  color: #666;
+}
 .field span {
   position: absolute;
   top: -18px;
@@ -112,4 +131,44 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 800;
+}
+.btn_container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.btn_container h2 {
+  letter-spacing: 1px;
+}
+.btn_select_order {
+  width: 100%;
+  padding: 25px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  color: rgb(248, 246, 246);
+  background-color: rgb(182, 2, 2);
+}
+.delivery_select {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 15px;
+  font-size: 16px;
+  outline: #2d2d2d;
+}
+.delivery_select_error {
+  width: 100%;
+  border: 1px solid #fd0202;
+  padding: 15px;
+  font-size: 16px;
+  outline: #fd0202;
+}
+.error {
+  color: red;
+  font-size: 14px;
 }
