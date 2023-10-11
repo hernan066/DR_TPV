@@ -50,9 +50,7 @@ export const Local = () => {
             X
           </button>
         </div>
-        <button onClick={() => onSearch(value)} className={styles.btn_search}>
-          Buscar
-        </button>
+
         <div className={styles.dropdown}>
           {allClients
             .filter((item) => {

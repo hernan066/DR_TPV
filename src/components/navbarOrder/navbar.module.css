@@ -1,6 +1,6 @@
 .navbar {
   height: 70px;
-  background-color: red;
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
   gap: 8px;

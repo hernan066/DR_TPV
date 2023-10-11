@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./menu.module.css";
-import { GrClose } from "react-icons/gr";
 import { closeMenu } from "../../redux/uiSlice";
 import { Link } from "react-router-dom";
 import { logOut } from "../../redux/authSlice";
@@ -14,9 +13,16 @@ export const Menu = () => {
         className={styles.btn_close}
         onClick={() => dispatch(closeMenu())}
       >
-        <GrClose />
+        x
       </button>
-      <h2>Menu</h2>
+      <div className={styles.menu__logo_container}>
+        <div className={styles.menu__logo}>
+          <img
+            src="https://ik.imagekit.io/mrprwema7/OurMarket/our-market-low-resolution-logo-color-on-transparent-background_tryvGRTNa.png?updatedAt=1695680889949"
+            alt="logo"
+          />
+        </div>
+      </div>
       <ul className={styles.menu_list}>
         <Link to={"/"} onClick={() => dispatch(closeMenu())}>
           <li>Modo Vendedor</li>

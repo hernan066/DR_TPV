@@ -1,3 +1,6 @@
+main {
+  position: relative;
+}
 .container {
   min-height: 100vh;
   display: flex;
@@ -5,7 +8,7 @@
 .left {
   width: 65%;
   overflow: hidden;
-  background-color: #ee1702;
+  background-color: var(--color-grey);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,9 +18,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-white2);
 }
 .logo_container {
-  width: 500px;
+  max-width: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,14 +33,16 @@
   padding: 40px 20px;
   text-align: center;
   width: 350px;
-  border: 1px solid #666;
+  box-shadow: 3px 3px 30px #ccc, -3px -3px 30px #ccc;
   border-radius: 10px;
+  background-color: var(--color-white);
 }
 .form_container h2 {
   padding: 20px;
   margin-bottom: 15px;
   letter-spacing: 4px;
   text-transform: uppercase;
+  font-weight: 400;
 }
 .input__container {
   display: flex;
@@ -54,12 +60,30 @@
   padding: 10px;
   font-family: var(--font-1);
   border: none;
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid #d3d3d3;
   outline: none;
+  background-color: var(--color-white);
+}
+.input__container input::placeholder {
+  color: #aaa;
 }
 .error {
   background-color: khaki;
   padding: 10px 5px;
   margin-top: 20px;
   line-height: 22px;
+}
+
+footer {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+  color: var(--color-white2);
+}
+footer a {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--color-white2);
 }

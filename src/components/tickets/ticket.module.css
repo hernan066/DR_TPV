@@ -5,7 +5,7 @@
   margin: 5px 0;
 }
 .navbar {
-  background-color: #ddd;
+  background-color: var(--color-grey);
   height: 70px;
   width: 100%;
   display: flex;
@@ -17,7 +17,7 @@
 .ticket_btn_delete {
   height: 60px;
   width: 50%;
-  background-color: red;
+  background: var(--gradient-primary2);
   color: white;
   border: none;
   font-size: 20px;
@@ -25,22 +25,26 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
+  border-radius: 10px;
 }
 .ticket_btn_delete:disabled {
-  background-color: rgb(162, 161, 161);
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .ticket_btn_quantity {
   height: 60px;
   width: 50%;
-  background-color: rgb(110, 110, 110);
+  background: var(--gradient-grey3);
   color: white;
   border: none;
   font-size: 20px;
+  border-radius: 10px;
 }
 .ticket_btn_quantity:disabled {
-  background-color: rgb(162, 161, 161);
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .ticket_code {
   flex: 1;
@@ -52,7 +56,7 @@
   background-color: #ccc;
 }
 .footer {
-  background-color: #ddd;
+  background-color: var(--color-grey);
   height: 70px;
   width: 100%;
   display: flex;
@@ -81,12 +85,13 @@
 .ticket_btn_cancel {
   height: 60px;
   width: 50%;
-  background-color: rgb(110, 110, 110);
+  background: var(--gradient-grey3);
   color: white;
   border: none;
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
+  border-radius: 10px;
 }
 .flex {
   display: flex;
@@ -121,7 +126,7 @@
 }
 
 .product_active {
-  background-color: rgba(77, 153, 246, 0.892);
+  background-color: var(--color-grey2);
   color: white;
   padding: 10px;
   transition: 0.2s;
@@ -133,14 +138,14 @@
 }
 .product_active:hover {
   cursor: pointer;
-  background-color: rgba(62, 127, 207, 0.892);
+  background-color: var(--color-grey2);
 }
 .product:hover {
   cursor: pointer;
   background-color: rgba(228, 228, 228, 0.197);
 }
 .quantity {
-  background-color: #666;
+  background-color: var(--color-grey);
   color: white;
   height: 30px;
   min-width: 30px;

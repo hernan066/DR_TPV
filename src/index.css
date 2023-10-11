@@ -11,9 +11,46 @@
   --color-pendiente: #ddd613;
   --color-completado: #37b00b;
   --color-rechazado: #dd132b;
-  --color-red: #db1212;
+  --color-red: #9c4141;
   --color-black: #4c4c4c;
   --color-white: #f1f1f1;
+
+  --color-primary: #018eb2;
+  --color-grey: #474b56;
+  --color-grey2: #1b1d3443;
+
+  --color-white2: #e1e1e1;
+
+  --gradient-primary: linear-gradient(
+    0deg,
+    rgb(2, 98, 122) 0%,
+    rgb(2, 135, 169) 100%
+  );
+  --gradient-primary2: linear-gradient(
+    0deg,
+    rgb(2, 117, 145) 0%,
+    rgb(3, 152, 189) 100%
+  );
+  --gradient-red: linear-gradient(
+    0deg,
+    rgb(100, 12, 47) 0%,
+    rgb(189, 37, 118) 100%
+  );
+  --gradient-grey1: linear-gradient(
+    0deg,
+    rgb(193, 192, 192) 0%,
+    rgb(245, 247, 247) 100%
+  );
+  --gradient-grey2: linear-gradient(
+    0deg,
+    rgb(124, 125, 125) 0%,
+    rgb(169, 170, 170) 100%
+  );
+  --gradient-grey3: linear-gradient(
+    0deg,
+    rgb(89, 90, 90) 0%,
+    rgb(173, 173, 173) 100%
+  );
 
   --font-1: "Open Sans", sans-serif;
   --font-2: "Bebas Neue", sans-serif;
@@ -33,12 +70,13 @@
 /*-------------- boton con loading---------------- */
 
 .btn-load {
-  background-color: var(--color-red);
+  background: var(--gradient-primary);
   border: none;
   color: white;
   cursor: pointer;
   font-size: 15px;
   letter-spacing: 4px;
+  border-radius: 10px;
 
   padding: 15px;
   text-transform: uppercase;
@@ -47,14 +85,13 @@
   position: relative;
 }
 .btn-load:hover {
-  box-shadow: 2px 2px 5px #887c7c;
   transform: scale(1.003);
 }
 .grey {
   background-color: #666;
 }
 .btn-load:disabled {
-  background-color: #292c2c;
+  background: var(--gradient-primary);
   cursor: not-allowed;
 }
 
@@ -81,7 +118,6 @@
 .form__error {
   font-size: 12px;
   color: red;
-  margin-left: 40px;
 }
 button:hover {
   cursor: pointer;
@@ -95,4 +131,18 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #474b56;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 20px;
 }

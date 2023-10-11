@@ -8,8 +8,8 @@ import { setCredentials } from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const SignupSchema = Yup.object().shape({
-  email: Yup.string().email("Formato invalido").required("Requerido"),
-  password: Yup.string().min(6, "6 caracteres mínimo").required("Requerido"),
+  email: Yup.string().email("Formato invalido").required("*Requerido"),
+  password: Yup.string().min(6, "6 caracteres mínimo").required("*Requerido"),
 });
 
 export const Login = () => {
@@ -38,14 +38,14 @@ export const Login = () => {
       <div className={styles.left}>
         <div className={styles.logo_container}>
           <img
-            src="https://ik.imagekit.io/mrprwema7/logo_ZHIGAVlne.jpg?updatedAt=1689002315199"
+            src="https://ik.imagekit.io/mrprwema7/OurMarket/our-market-low-resolution-logo-color-on-transparent-background_tryvGRTNa.png?updatedAt=1695680889949"
             alt="logo"
           />
         </div>
       </div>
       <div className={styles.right}>
         <div className={styles.form_container}>
-          <h2>Ingresa</h2>
+          <h2>TPV - Ingresar</h2>
           <Formik
             initialValues={{
               email: "",
@@ -61,7 +61,7 @@ export const Login = () => {
               <Form>
                 <div className={styles.input__container}>
                   <img
-                    src="https://ik.imagekit.io/mrprwema7/user_OkKLt0tst.png?updatedAt=1688138561573"
+                    src="https://ik.imagekit.io/mrprwema7/OurMarket/user_OkKLt0tst%20(1)__K2sUFDZJ.png?updatedAt=1695681678392"
                     alt="icono usuario"
                   />
                   <Field
@@ -78,7 +78,7 @@ export const Login = () => {
                 />
                 <div className={styles.input__container}>
                   <img
-                    src="https://ik.imagekit.io/mrprwema7/password_sMXDhy2rr.png?updatedAt=1688138561435"
+                    src="https://ik.imagekit.io/mrprwema7/OurMarket/password_sMXDhy2rr%20(1)_Z8pTPQmhK.png?updatedAt=1695681678685"
                     alt="icono password"
                   />
 
@@ -113,6 +113,12 @@ export const Login = () => {
           </Formik>
         </div>
       </div>
+      <footer>
+        <small>
+          &copy; {new Date().getFullYear()}, made with ❤ by
+          <a href="www.our-market.com.ar">&nbsp;OurMarket&nbsp;</a>
+        </small>
+      </footer>
     </main>
   );
 };

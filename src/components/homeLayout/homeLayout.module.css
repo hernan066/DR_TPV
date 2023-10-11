@@ -5,10 +5,9 @@
 .products_container {
   width: 70%;
   position: relative;
-  border: 1px solid #ddd;
+  border-right: 1px solid #ccc;
 }
 .ticket_container {
   width: 30%;
   position: relative;
-  border: 1px solid #ddd;
 }
