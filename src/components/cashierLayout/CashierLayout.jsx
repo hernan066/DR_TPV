@@ -10,6 +10,7 @@ import { CashOut } from "../cashOut/CashOut";
 import { Delivery } from "../selectClient/Delivery";
 import { Local } from "../selectClient/Local";
 import { Selector } from "../selectClient/Selector";
+import { Pagination } from "../pagination/Pagination";
 
 export const CashierLayout = ({ children }) => {
   const {
@@ -33,6 +34,7 @@ export const CashierLayout = ({ children }) => {
         <div className={styles.products_container}>
           <NavbarOrder />
           {children}
+          <Pagination />
         </div>
         <div className={styles.ticket_container}>
           <OrderDetail />

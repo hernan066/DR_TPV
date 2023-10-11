@@ -5,13 +5,12 @@
 .products_container {
   width: 70%;
   position: relative;
-  border: 1px solid #ddd;
 }
 .ticket_container {
   width: 30%;
   position: relative;
-  border: 1px solid #9b0404;
-  border: 1px solid #ddd;
+
+  border-left: 1px solid #ddd;
 }
 
 .btn-load {

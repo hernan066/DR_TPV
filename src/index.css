@@ -36,6 +36,16 @@
     rgb(100, 12, 47) 0%,
     rgb(189, 37, 118) 100%
   );
+  --gradient-green: linear-gradient(
+    0deg,
+    rgb(38, 85, 43) 0%,
+    rgb(126, 166, 126) 100%
+  );
+  --gradient-red2: linear-gradient(
+    0deg,
+    rgb(111, 20, 20) 0%,
+    rgb(221, 132, 132) 100%
+  );
   --gradient-grey1: linear-gradient(
     0deg,
     rgb(193, 192, 192) 0%,
@@ -143,6 +153,6 @@ input[type="number"] {
 }
 
 ::-webkit-scrollbar-track {
-  background: #ddd;
+  background: #fff;
   border-radius: 20px;
 }

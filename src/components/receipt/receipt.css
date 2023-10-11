@@ -126,12 +126,13 @@
   font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  background-color: #85605c;
+  background: var(--gradient-red);
   color: rgb(255, 255, 255);
   border: 1px solid rgb(210, 0, 0);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 }
 #receipt__btn svg {
   height: 30px;

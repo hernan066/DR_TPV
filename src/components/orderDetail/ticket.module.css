@@ -5,7 +5,7 @@
   margin: 5px 0;
 }
 .navbar {
-  background-color: #ddd;
+  background-color: var(--color-grey);
   height: 70px;
   width: 100%;
   display: flex;
@@ -17,28 +17,30 @@
 .ticket_btn_delete {
   height: 60px;
   width: 25%;
-  background-color: red;
+  background: var(--gradient-red2);
   color: white;
   border: none;
   font-size: 20px;
+  border-radius: 10px;
 }
 .ticket_btn_delete:disabled {
-  background-color: rgb(162, 161, 161);
-
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .ticket_btn_quantity {
   height: 60px;
   width: 25%;
-  background-color: rgb(110, 110, 110);
+  background: var(--gradient-grey3);
   color: white;
   border: none;
   font-size: 20px;
+  border-radius: 10px;
 }
 .ticket_btn_quantity:disabled {
-  background-color: rgb(162, 161, 161);
-
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .ticket_code {
   width: 25%;
@@ -47,28 +49,34 @@
   border: 1px solid #ccc;
   height: 60px;
   display: flex;
-  background-color: rgb(110, 110, 110);
+  background: var(--gradient-grey3);
   font-size: 20px;
   color: white;
+  border: none;
+  border-radius: 10px;
 }
 .ticket_code:disabled {
-  background-color: rgb(162, 161, 161);
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .ticket_btn_products {
   height: 60px;
   width: 25%;
-  background-color: rgb(110, 110, 110);
+  background: var(--gradient-grey3);
   color: white;
   border: none;
   font-size: 20px;
+  border-radius: 10px;
 }
+
 .ticket_btn_products:disabled {
-  background-color: rgb(162, 161, 161);
+  background: var(--gradient-grey1);
   cursor: not-allowed;
+  color: #222222;
 }
 .footer {
-  background-color: #ddd;
+  background-color: var(--color-grey);
   height: 70px;
   width: 100%;
   display: flex;
