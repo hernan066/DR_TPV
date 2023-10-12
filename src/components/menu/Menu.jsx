@@ -32,7 +32,24 @@ export const Menu = () => {
         </Link>
         <li>Abrir Caja</li>
         <li>Cerrar Caja</li>
-        <li onClick={() => dispatch(logOut())}>Cerrar Sesión</li>
+        <li>
+          <a
+            href={import.meta.env.VITE_APP_DASHBOARD}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => dispatch(closeMenu())}
+          >
+            Administrador
+          </a>
+        </li>
+        <li
+          onClick={() => {
+            dispatch(logOut());
+            dispatch(closeMenu());
+          }}
+        >
+          Cerrar Sesión
+        </li>
       </ul>
     </section>
   );

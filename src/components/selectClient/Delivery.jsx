@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./client.module.css";
 import { useState } from "react";
-import { addClient, addDeliveryTruck } from "../../redux/orderSlice";
+import {
+  addClient,
+  addDeliveryTruck,
+  addShippingCost,
+} from "../../redux/orderSlice";
 import { closeDeliveryOrder } from "../../redux/uiSlice";
 
 export const Delivery = () => {
@@ -13,10 +17,14 @@ export const Delivery = () => {
   const [value, setValue] = useState("");
   const [selectClient, setSelectClient] = useState(null);
   const [deliveryTruck, setDeliveryTruck] = useState(null);
+  const [shippingCost, setShippingCost] = useState(0);
   const [error, setError] = useState(null);
 
   const onChange = (event) => {
     setValue(event.target.value);
+  };
+  const onChangeShippingCost = (event) => {
+    setShippingCost(event.target.value);
   };
   const onChangeDeliveryTruck = (e) => {
     setDeliveryTruck(e.target.value);
@@ -42,6 +50,7 @@ export const Delivery = () => {
       dispatch(addDeliveryTruck(deliveryTruck));
       dispatch(addClient(selectClient));
       dispatch(closeDeliveryOrder());
+      dispatch(addShippingCost(+shippingCost));
     }
   };
 
@@ -67,9 +76,7 @@ export const Delivery = () => {
             X
           </button>
         </div>
-        <button onClick={() => onSearch(value)} className={styles.btn_search}>
-          Buscar
-        </button>
+
         <div className={styles.dropdown}>
           {allClientsAddresses
             .filter((item) => {
@@ -135,6 +142,15 @@ export const Delivery = () => {
             <div className={styles.field}>
               <span>Dirección</span>
               <p>{selectClient.address}</p>
+            </div>
+            <div className={styles.field}>
+              <span>Costo de envío</span>
+              <input
+                type="number"
+                value={shippingCost}
+                onChange={(e) => onChangeShippingCost(e)}
+                id={styles.input__shippingCost}
+              />
             </div>
 
             <button className={styles.btn_send} onClick={handleSend}>

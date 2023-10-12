@@ -64,8 +64,15 @@ export const Ticket = () => {
   const navigate = useNavigate();
   const { socket } = useContext(SocketContext);
 
-  const { products, client, active, subTotal, deliveryTruck, shippingAddress } =
-    useSelector((store) => store.order);
+  const {
+    products,
+    client,
+    active,
+    subTotal,
+    deliveryTruck,
+    shippingAddress,
+    shippingCost,
+  } = useSelector((store) => store.order);
 
   const { user } = useSelector((store) => store.auth);
 
@@ -107,9 +114,9 @@ export const Ticket = () => {
       employee: null, //este esta de mas, borrar
       deliveryZone: client?.deliveryZone?._id || null,
       numberOfItems: products.length,
-      tax: 0,
+      tax: shippingCost,
       subTotal: subTotal,
-      total: subTotal,
+      total: subTotal + shippingCost,
 
       status: "Pendiente", // Entregado
       active: deliveryTruck ? true : false, //solo si es de reparto
@@ -267,7 +274,7 @@ export const Ticket = () => {
           </div>
           <div className={styles.flex}>
             <h4>Envío</h4>
-            <h4>$0</h4>
+            <h4>{formatPrice(shippingCost || 0)}</h4>
           </div>
           <div className={styles.divider}></div>
           <div
@@ -275,7 +282,7 @@ export const Ticket = () => {
             style={{ fontSize: "30px", fontWeight: 800, letterSpacing: "2px" }}
           >
             <h4>Total</h4>
-            <h4>{formatPrice(subTotal || 0)}</h4>
+            <h4>{formatPrice(subTotal ? subTotal + shippingCost : 0)}</h4>
           </div>
         </div>
         <div className={styles.footer}>

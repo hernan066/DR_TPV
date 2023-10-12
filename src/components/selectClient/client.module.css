@@ -173,6 +173,9 @@
   font-size: 16px;
   outline: #2d2d2d;
 }
+.delivery_select option:hover {
+  background-color: var(--color-primary);
+}
 .delivery_select_error {
   width: 100%;
   border: 1px solid #fd0202;
@@ -183,4 +186,10 @@
 .error {
   color: red;
   font-size: 14px;
+}
+
+#input__shippingCost {
+  padding: 0;
+  border: none;
+  outline: none;
 }

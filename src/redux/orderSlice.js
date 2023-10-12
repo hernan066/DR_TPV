@@ -102,6 +102,10 @@ const orderSlice = createSlice({
       state.shippingAddress = action.payload.shippingAddress;
       state.shippingCost = action.payload.shippingCost;
     },
+    addShippingCost: (state, action) => {
+      state.shippingCost = action.payload;
+      state.subTotal = state.subTotal + action.payload;
+    },
     isValidStockOrder: (state, action) => {
       state.validStockQuantity = action.payload;
     },
@@ -139,5 +143,6 @@ export const {
   clearActiveProduct,
   updateQuantityProduct,
   addDeliveryTruck,
+  addShippingCost,
 } = orderSlice.actions;
 export default orderSlice.reducer;
