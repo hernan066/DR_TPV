@@ -250,7 +250,7 @@ export const CashOut = () => {
             <div className={styles.totals}>
               <div className={styles.row}>
                 <h3>Cliente</h3>
-                <h3>{`${selectOrder.userId.name} ${selectOrder.userId.lastName}`}</h3>
+                <h3>{`${selectOrder.shippingAddress.name} ${selectOrder.shippingAddress.lastName}`}</h3>
               </div>
               <div className={styles.row}>
                 <h3>Subtotal</h3>

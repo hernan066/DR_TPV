@@ -1,7 +1,7 @@
 .container {
   height: 70px;
   width: 100%;
-  background-color: red;
+  background: var(--gradient-primary);
   display: flex;
   justify-content: center;
   align-items: center;
