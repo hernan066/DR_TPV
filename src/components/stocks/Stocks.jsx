@@ -32,6 +32,7 @@ export const Stocks = () => {
 
       unitCost: stock.unityCost,
       stockId: stock._id,
+      maxStock: stock.stock,
     };
     dispatch(
       addProduct({

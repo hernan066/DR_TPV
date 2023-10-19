@@ -150,6 +150,11 @@
   bottom: 0;
   width: 100%;
 }
+.products {
+  overflow-y: scroll;
+  height: 60vh;
+  padding-bottom: 50px;
+}
 
 .product_active {
   background-color: rgba(102, 113, 126, 0.892);

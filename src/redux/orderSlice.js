@@ -122,7 +122,8 @@ const orderSlice = createSlice({
       state.maxStock = null;
     },
     setActiveProduct: (state, action) => {
-      state.active = action.payload;
+      state.active = action.payload.uniqueId;
+      state.maxStock = action.payload.maxStock;
     },
     clearActiveProduct: (state) => {
       state.active = null;

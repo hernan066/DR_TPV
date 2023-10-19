@@ -35,7 +35,12 @@ const Product = ({ product }) => {
       dispatch(clearActiveProduct());
     } else {
       dispatch(clearActiveProduct());
-      dispatch(setActiveProduct(product.uniqueId));
+      dispatch(
+        setActiveProduct({
+          uniqueId: product.uniqueId,
+          maxStock: product.maxStock,
+        })
+      );
     }
   };
 
