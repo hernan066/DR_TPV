@@ -88,7 +88,7 @@ export const Ticket = () => {
     const order = {
       userCashier: deliveryTruck ? user : null, // id del usuario cajero
       userSeller: user, // id del usuario vendedor
-      client: client.client._id,
+      client: deliveryTruck ? client.client._id : client._id, //Id del cliente o id de la direccion
       userId: client.user._id,
       cashierMode: !deliveryTruck ? true : false, // para ser vista por el cajero al buscar en db
       receiptId: Date.now(),
