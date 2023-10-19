@@ -86,8 +86,7 @@ export const Delivery = () => {
 
               return (
                 searchTerm &&
-                (fullName.startsWith(searchTerm) ||
-                  phone.startsWith(searchTerm)) &&
+                (fullName.includes(searchTerm) || phone.includes(searchTerm)) &&
                 fullName !== searchTerm
               );
             })
