@@ -32,19 +32,20 @@
   outline: none;
   border: none;
 }
+.scroll {
+  height: calc(100vh - 70px - 70px);
+  overflow-y: scroll;
+}
 .main_products {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* full responsive in one line */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 10px;
   padding: 10px;
-  overflow-y: scroll;
-  height: 85vh;
-  align-items: flex-start;
-  align-content: flex-start;
 }
 .product_card {
-  width: 19.3%;
-  height: 19.3%;
+  width: 100%;
+  height: 100%;
   background-color: white;
   position: relative;
   box-shadow: 2px 2px 5px #cccccc83, -2px -2px 5px #cccccc83;

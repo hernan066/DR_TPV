@@ -24,47 +24,49 @@ export const Products = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className={styles.main_products}>
-      <div
-        className={styles.product_card}
-        onClick={() => {
-          navigate("/");
-          dispatch(clearSearchOfert());
-        }}
-      >
-        <IoMdArrowBack />
-        <h3>Volver</h3>
+    <div className={styles.scroll}>
+      <div className={styles.main_products}>
+        <div
+          className={styles.product_card}
+          onClick={() => {
+            navigate("/");
+            dispatch(clearSearchOfert());
+          }}
+        >
+          <IoMdArrowBack />
+          <h3>Volver</h3>
+        </div>
+        {searchOfert &&
+          searchOfert.map((ofert) => {
+            return (
+              <div
+                className={styles.product_card}
+                key={ofert._id}
+                onClick={() => navigate(`/oferta/${ofert._id}`)}
+              >
+                <img src={ofert.product.img} alt={ofert.product.name} />
+                <div className={styles.product_card_name}>
+                  <h3>{ofert.description}</h3>
+                </div>
+              </div>
+            );
+          })}
+        {!searchOfert &&
+          filterOferts.map((ofert) => {
+            return (
+              <div
+                className={styles.product_card}
+                key={ofert._id}
+                onClick={() => navigate(`/oferta/${ofert._id}`)}
+              >
+                <img src={ofert.product.img} alt={ofert.product.name} />
+                <div className={styles.product_card_name}>
+                  <h3>{ofert.description}</h3>
+                </div>
+              </div>
+            );
+          })}
       </div>
-      {searchOfert &&
-        searchOfert.map((ofert) => {
-          return (
-            <div
-              className={styles.product_card}
-              key={ofert._id}
-              onClick={() => navigate(`/oferta/${ofert._id}`)}
-            >
-              <img src={ofert.product.img} alt={ofert.product.name} />
-              <div className={styles.product_card_name}>
-                <h3>{ofert.description}</h3>
-              </div>
-            </div>
-          );
-        })}
-      {!searchOfert &&
-        filterOferts.map((ofert) => {
-          return (
-            <div
-              className={styles.product_card}
-              key={ofert._id}
-              onClick={() => navigate(`/oferta/${ofert._id}`)}
-            >
-              <img src={ofert.product.img} alt={ofert.product.name} />
-              <div className={styles.product_card_name}>
-                <h3>{ofert.description}</h3>
-              </div>
-            </div>
-          );
-        })}
     </div>
   );
 };
